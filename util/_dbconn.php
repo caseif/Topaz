@@ -40,32 +40,34 @@ function row_to_post(array $row): Post {
         $row["content"],
         $row["time"],
         $row["author"],
+        $row["author_name"] ?? null,
         $row["category"],
         $row["visible"],
     );
 }
 
 function get_posts($offset = -1, $limit = -1, $reverse = false, $visible_only = true): array {
-    if (!get_db_link()->query("USE `".GlobalConfig\DB_NAME."`")) {
+    if (!get_db_link()->query('USE `'.GlobalConfig\DB_NAME.'`')) {
         throw new RuntimeException("MySQL change db failed: ".get_db_link()->error);
     }
 
-    $query = "SELECT * FROM `posts`";
+    $query = 'SELECT p.*, u.`display` AS `author_name` FROM `posts` p
+              INNER JOIN `login` AS u ON p.`author` = u.`id`';
 
     if ($visible_only) {
-        $query .= " WHERE `visible`=1";
+        $query .= ' WHERE `visible`=1';
+    }
+
+    $query .= ' ORDER BY `time`';
+    if ($reverse) {
+        $query .= ' DESC';
     }
 
     if ($limit > 0) {
-        $query .= " LIMIT ".$limit;
+        $query .= ' LIMIT '.$limit;
     }
     if ($offset >= 0) {
-        $query .= " OFFSET".$offset;
-    }
-
-    $query .= " ORDER BY `time`";
-    if ($reverse) {
-        $query .= " DESC";
+        $query .= ' OFFSET '.$offset;
     }
 
     $res = get_db_link()->query($query);
@@ -78,6 +80,43 @@ function get_posts($offset = -1, $limit = -1, $reverse = false, $visible_only = 
     while ($row = $res->fetch_assoc()) {
         $posts[] = row_to_post($row);
     }
+
+    $res->close();
+
     return $posts;
+}
+
+function get_post(int $id): ?Post {
+    if (!get_db_link()->query('USE `'.GlobalConfig\DB_NAME.'`')) {
+        throw new RuntimeException("MySQL change db failed: ".get_db_link()->error);
+    }
+
+    $stmt = get_db_link()->prepare('SELECT p.*, u.`display` AS `author_name` FROM `posts` p
+                                    INNER JOIN `login` AS u ON p.`author` = u.`id`
+                                    WHERE p.`id`=? AND `visible`=1 LIMIT 1');
+
+    if (!$stmt) {
+        throw new RuntimeException("MySQL prepare failed: ".get_db_link()->error);
+    }
+
+    $stmt->bind_param('i', $id);
+
+    $stmt->execute();
+    $res = $stmt->get_result();
+
+    if (!$res) {
+        throw new RuntimeException("MySQL query failed: ".get_db_link()->error);
+    }
+
+    if ($res->num_rows === 0) {
+        return null;
+    }
+    
+    $row = $res->fetch_assoc();
+
+    $res->close();
+    $stmt->close();
+
+    return row_to_post($row);
 }
 ?>

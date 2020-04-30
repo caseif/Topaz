@@ -1,7 +1,9 @@
-<?php include_once dirname(__FILE__)."/../util/_utility.php"; ?>
-<?php include_once dirname(__FILE__)."/../util/_global_config.php"; ?>
-<?php include_once dirname(__FILE__)."/../util/_page_config.php"; ?>
-<?php include_once dirname(__FILE__)."/../util/_dbconn.php"; ?>
+<?php
+include_once dirname(__FILE__)."/../util/_utility.php";
+include_once dirname(__FILE__)."/../util/_global_config.php";
+include_once dirname(__FILE__)."/../util/_page_config.php";
+include_once dirname(__FILE__)."/../util/_dbconn.php";
+?>
 
 <!DOCTYPE html>
 <html>
@@ -31,7 +33,8 @@
 </head>
 
 <body>
-    <div id="content-wrapper">
-        <div id="container">
-            <?php include_once dirname(__FILE__)."/../template/_navbar.php"; ?>
-            <div id="main-content">
+    <div id="container">
+        <?php
+        include_once dirname(__FILE__)."/../template/_navbar.php";
+        ?>
+        <div id="page-body">

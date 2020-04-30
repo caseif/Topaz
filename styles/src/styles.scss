@@ -12,6 +12,7 @@ $sidebar-width: 25%;
 
 body {
     font-family: "Lato", "Segoe UI", Calibri, Ubuntu, sans-serif;
+    font-size: 13pt;
     color: $color-text;
     background-color: $color-background;
 }
@@ -94,9 +95,9 @@ a {
 
 // /navbar
 
-// main content
+// page content
 
-#content-wrapper {
+#container {
     margin-left: auto;
     margin-right: auto;
 
@@ -105,29 +106,54 @@ a {
     }
 
     @media (min-width: 1001px) {
-        width: 60%;
+        width: 60rem;
     }
 }
 
-#main-content {
+#page-body {
     display: flex;
     flex-direction: row;
     margin-top: 5rem;
+    margin-bottom: 2rem;
 
     * {
         flex-shrink: 0;
     }
 }
 
-// /main content
+// /page content
 
-// page content
+// main content
 
-#page-content {
+#main-content {
     width: calc(#{100% - $sidebar-width} - 1rem);
+    padding-right: 1rem;
 }
 
-// /page content
+.post {
+    &:not(:last-child) {
+        border-bottom: solid black 1px;
+        padding-bottom: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .post-header {
+        font-size: 1.4rem;
+        color: $color-accent-dark;
+        margin-bottom: 1rem;
+    }
+
+    .post-body {
+        margin-bottom: 2rem;
+    }
+
+    .post-footer {
+        color: $color-accent-dark;
+        float: right;
+    }
+}
+
+// /main content
 
 // sidebar
 
@@ -166,19 +192,60 @@ a {
 
             li {
                 padding: 0;
-
-                &:not(:last-child) {
-                    margin-bottom: 0.2rem;
-                }
+                margin-bottom: 0.5rem;
 
                 &.older {
                     display: none;
+
+                    &.expanded {
+                        display: list-item;
+                    }
                 }
             }
         }
 
         #recent-control {
             margin-left: -1rem;
+        }
+
+        #archive-container {
+            .archive-year {
+                margin-bottom: 0.4rem;
+
+                .archive-year-label {
+                    cursor: pointer;
+
+                    .archive-year-expander {
+                        width: 0.6rem;
+
+                        &.fa-caret-down {
+                            margin-left: -0.2rem;
+                            margin-right: 0.2rem;
+                        }
+                    }
+                }
+
+                .archive-year-body {
+                    margin-left: 0.5rem;
+                }
+
+                &.collapsed {
+                    .archive-year-body {
+                        display: none;
+                    }
+                }
+            }
+
+            ul {
+                margin: 0;
+                padding-left: 1rem;
+            }
+        }
+
+        #external-links {
+            .sidebar-link {
+                margin-bottom: 0.5rem;
+            }
         }
     }
 }
