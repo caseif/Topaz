@@ -46,6 +46,30 @@ function row_to_post(array $row): Post {
     );
 }
 
+function get_post_count($visible_only = true): int {
+    if (!get_db_link()->query('USE `'.GlobalConfig\DB_NAME.'`')) {
+        throw new RuntimeException("MySQL change db failed: ".get_db_link()->error);
+    }
+
+    $query = 'SELECT COUNT(*) FROM `posts`';
+
+    if ($visible_only) {
+        $query .= ' WHERE `visible`=1';
+    }
+
+    $res = get_db_link()->query($query);
+
+    if (!$res) {
+        throw new RuntimeException("MySQL query failed: ".get_db_link()->error);
+    }
+    
+    $count = $res->fetch_row()[0];
+
+    $res->close();
+
+    return $count;
+}
+
 function get_posts($offset = -1, $limit = -1, $reverse = false, $visible_only = true): array {
     if (!get_db_link()->query('USE `'.GlobalConfig\DB_NAME.'`')) {
         throw new RuntimeException("MySQL change db failed: ".get_db_link()->error);

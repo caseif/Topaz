@@ -13,7 +13,7 @@ const DB_CRED_FILE = "/etc/blog/credentials.json";
 
 const SIDEBAR_RECENT_POST_COUNT = 5;
 const HOME_RECENT_POST_COUNT = 5;
-const POST_ABRIDGED_CHARS = 500;
+const POST_ABRIDGED_CHARS = 600;
 
 const COPYRIGHT_START = "2013";
 const COPYRIGHT_END = null;

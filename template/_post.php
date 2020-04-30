@@ -23,7 +23,7 @@ function abridge_node(DOMDocument $root, DOMNode $node, int &$avail_chars): DOMN
         $text = $node->textContent;
         
         if (strlen($node->textContent) >= $avail_chars) {
-            $text = aware_substr($text, $avail_chars).'...';
+            $text = aware_substr($text, $avail_chars)."\u{2026}";
             $avail_chars = 0;
         } else {
             $avail_chars -= strlen($text);
@@ -82,9 +82,15 @@ function render_post(Post $post, bool $abridge = false): void {
     $human_date = date('F j, Y', $post->time);
     $robot_date = date('Y-m-d', $post->time);
 
+    $full_post_link = "";
     $parsed_text = $parsedown->text($post->content);
     if ($abridge) {
         $parsed_text = abridge_text($parsed_text);
+        $full_post_link = <<<HTML
+        <div class="post-full-link">
+            <a href="/post.php?id={$post->id}">See Full Post</a>
+        </div>
+        HTML;
     }
 
     echo <<<HTML
@@ -98,7 +104,10 @@ function render_post(Post $post, bool $abridge = false): void {
             {$parsed_text}
         </div>
         <footer class="post-footer">
-            Posted by {$post->author_name} on <time datetime="{$robot_date}">{$human_date}</time>
+            {$full_post_link}
+            <div class="post-signature">
+                Posted by {$post->author_name} on <time datetime="{$robot_date}">{$human_date}</time>
+            </div>
         </footer>
     </article>
     HTML;
