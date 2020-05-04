@@ -1,15 +1,16 @@
 <?php
 namespace GlobalConfig;
 
-include_once dirname(__FILE__)."/../model/_ext_link.php";
-include_once dirname(__FILE__)."/../model/_navbar_link.php";
+require_once dirname(__FILE__)."/../model/_ext_link.php";
+require_once dirname(__FILE__)."/../model/_navbar_link.php";
 
 const SITE_NAME = "caseif.blog";
 const SITE_HEADER = "caseif's blog";
 
+const SEC_CFG_FILE = "/etc/blog/secret_config.json";
+
 const DB_ADDR = "localhost";
 const DB_NAME = "blog";
-const DB_CRED_FILE = "/etc/blog/credentials.json";
 
 const SIDEBAR_RECENT_POST_COUNT = 5;
 const HOME_RECENT_POST_COUNT = 5;
@@ -20,6 +21,7 @@ const COPYRIGHT_END = null;
 const COPYRIGHT_NAME = "Max Roncace";
 
 const CONTACT_EMAIL = "me@caseif.net";
+const GITHUB_URL = "https://github.com/caseif/caseif.blog";
 
 $NAVBAR_LINKS = array(
     new \ImageNavbarLink("https://twitter.com/case_if", "fab", "twitter"),

@@ -1,5 +1,5 @@
 <?php
-include_once "./lib/_parsedown.php";
+require_once dirname(__FILE__)."/../lib/_parsedown.php";
 
 function aware_substr(string $str, int $len) {
     if (strlen($str) <= $len) {
@@ -79,8 +79,8 @@ function abridge_text(string $text) {
 function render_post(Post $post, bool $abridge = false): void {
     $parsedown = new Parsedown();
 
-    $human_date = date('F j, Y', $post->time);
-    $robot_date = date('Y-m-d', $post->time);
+    $human_date = date('F j, Y', $post->create_time);
+    $robot_date = date('Y-m-d', $post->create_time);
 
     $full_post_link = "";
     $parsed_text = $parsedown->text($post->content);

@@ -1,8 +1,8 @@
 <?php
 include_once "./template/_pager.php";
 include_once "./template/_post.php";
-include_once "./util/_dbconn.php";
-include_once "./util/_page_config.php";
+require_once "./util/_dbconn.php";
+require_once "./util/_page_config.php";
 
 PageConfig::$title = "Home";
 
@@ -26,7 +26,7 @@ include_once "./template/_header.php";
 <div id="main-content">
     <div id="post-previews">
         <?php
-        $posts = get_posts(($page - 1) * GlobalConfig\HOME_RECENT_POST_COUNT, GlobalConfig\HOME_RECENT_POST_COUNT, true);
+        $posts = get_posts(($page - 1) * GlobalConfig\HOME_RECENT_POST_COUNT, GlobalConfig\HOME_RECENT_POST_COUNT, true, false);
 
         foreach ($posts as $post_index => $post) {
             render_post($post, true);

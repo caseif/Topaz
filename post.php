@@ -1,9 +1,9 @@
 <?php
-include_once "./util/_dbconn.php";
-include_once "./util/_page_config.php";
+require_once "./util/_dbconn.php";
+require_once "./util/_page_config.php";
 include_once "./template/_post.php";
 
-$post = get_post($_GET['id']);
+$post = get_post($_GET['id'], false);
 
 PageConfig::$title = $post->title;
 

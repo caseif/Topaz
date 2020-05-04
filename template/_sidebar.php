@@ -1,6 +1,6 @@
 
 <?php
-$posts = get_posts(-1, -1, true, true);
+$posts = get_posts(-1, -1, true, false);
 ?>
 
 <div id="sidebar">
@@ -45,9 +45,9 @@ $posts = get_posts(-1, -1, true, true);
 
             if (count($posts) > 0) {
                 foreach ($posts as $post_index => $post) {
-                    $post_year = date('Y', $post->time);
-                    $post_month = date('F', $post->time);
-                    $post_day = date('j', $post->time);
+                    $post_year = date('Y', $post->create_time);
+                    $post_month = date('F', $post->create_time);
+                    $post_day = date('j', $post->create_time);
                     
                     if ($post_year !== $cur_year) {
                         if ($cur_year !== null) {
