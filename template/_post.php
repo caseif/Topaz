@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__)."/../lib/_parsedown.php";
+require_once dirname(__FILE__).'/../lib/_parsedown.php';
 
 function aware_substr(string $str, int $len) {
     if (strlen($str) <= $len) {
@@ -93,11 +93,17 @@ function render_post(Post $post, bool $abridge = false): void {
         HTML;
     }
 
+
+    $disp_title = $post->title;
+    if (!$post->visible) {
+        $disp_title .= ' [Hidden]';
+    }
+
     echo <<<HTML
-    <article class="post">
+    <article class="post" data-id="{$post->id}" data-title="{$post->title}">
         <header class="post-header">
             <div class="post-title">
-                {$post->title}
+                {$disp_title}
             </div>
         </header>
         <div class="post-body">
@@ -107,6 +113,21 @@ function render_post(Post $post, bool $abridge = false): void {
             {$full_post_link}
             <div class="post-signature">
                 Posted by {$post->author_name} on <time datetime="{$robot_date}">{$human_date}</time>
+            </div>
+            <div class="post-controls">
+                <div class="post-controls-section">
+                    <span class="post-control">
+                        <a href="/edit.php?id={$post->id}">Edit</a>
+                    </span>
+                    <span class="post-control">
+                        <a href="#" onclick="confirmDelete({$post->id});">Delete</a>
+                    </span>
+                </div>
+                <div class="post-controls-section">
+                    <span class="post-control">
+                        <a href="#" onclick="confirmPermaDelete({$post->id});">Delete Permanently</a>
+                    </span>
+                </div>
             </div>
         </footer>
     </article>

@@ -63,9 +63,9 @@ $(document).ready(() => {
         }
 
         $.ajax({
-            url: "/ajax/save.php",
+            url: "/ajax/change_post.php",
             data: data,
-            method: "POST",
+            method: id ? "POST" : "PUT",
             success: (resp: any, msg: string) => {
                 if (!resp.success) {
                     alert(`Failed to save post: ${resp.message}`);
@@ -76,12 +76,67 @@ $(document).ready(() => {
                     id = resp.id;
                 }
 
-                window.location.href = `/post.php?id=${id}`;
+                if (data.about) {
+                    window.location.href = `/about.php`;
+                } else {
+                    window.location.href = `/post.php?id=${id}`;
+                }
             },
             error: (xhr: JQueryXHR, msg: string) => {
                 alert(`Failed to save post: ${msg}`);
+            },
+            complete: (resp: any) => {
                 $("#edit-submit").prop("disabled", null);
             }
         });
     });
 });
+
+function deletePost(id: number, perma: boolean) {
+    $.ajax({
+        url: "/ajax/change_post.php",
+        data: {
+            id: id,
+            perma: perma
+        },
+        method: "DELETE",
+        success: (resp: any, msg: string) => {
+            if (!resp.success) {
+                alert(`Failed to delete post: ${resp.message}`);
+                return;
+            }
+
+            if (!id) {
+                id = resp.id;
+            }
+
+            window.location.href = "/";
+        },
+        error: (xhr: JQueryXHR, msg: string) => {
+            alert(`Failed to delete post: ${msg}`);
+        }
+    });
+}
+
+function confirmDelete(id: number): void {
+    if (!confirm("Are you sure you want to delete this post?")) {
+        return;
+    }
+
+    deletePost(id, false);
+}
+
+function confirmPermaDelete(id: number): void {
+    let title = $(`.post[data-id=${id}]`).attr("data-title");
+    
+    let promptRes = prompt(`Warning: this action will permanently delete the post from the database.\n`
+            + `Please type the post title if you wish to continue ('${title}').`);
+    if (promptRes?.toLowerCase() !== title?.toLowerCase()) {
+        if (promptRes !== null) {
+            alert("The title was entered incorrectly");
+        }
+        return;
+    }
+
+    deletePost(id, true);
+}

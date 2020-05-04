@@ -228,6 +228,23 @@ button {
         .post-signature {
             color: $color-accent-dark;
             text-align: right;
+            margin-bottom: 0.8rem;
+        }
+
+        .post-controls {
+            text-align: right;
+
+            .post-controls-section {
+                &:not(:last-child) {
+                    margin-bottom: 0.2rem;
+                }
+
+                .post-control {
+                    &:not(:last-child) {
+                        margin-right: 0.8rem;
+                    }
+                }
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 
 <?php
-$posts = get_posts(-1, -1, true, false);
+$posts = get_posts(-1, -1, true, GlobalConfig\SHOW_HIDDEN_POSTS);
 ?>
 
 <div id="sidebar">
@@ -11,26 +11,28 @@ $posts = get_posts(-1, -1, true, false);
                 <ul id="post-list">
                     <?php
                     foreach ($posts as $post_index => $post) {
-                    ?>
-                        <li <?php echo $post_index >= GlobalConfig\SIDEBAR_RECENT_POST_COUNT ? "class=\"older\"" : ""; ?>>
-                            <a href="/post.php?id=<?php echo $post->id; ?>"><?php echo $post->title; ?></a>
+                        $li_class = $post_index >= GlobalConfig\SIDEBAR_RECENT_POST_COUNT ? "class=\"older\"" : "";
+                        echo <<<HTML
+                        <li {$li_class}>
+                            <a href="/post.php?id={$post->id}">{$post->title}</a>
                         </li>
-                    <?php
+                        HTML;
                     }
                     ?>
                 </ul>
                 <?php
                 if (count($posts) > GlobalConfig\SIDEBAR_RECENT_POST_COUNT) {
-                ?>
+                    $addl_posts = count($posts) - GlobalConfig\SIDEBAR_RECENT_POST_COUNT;
+                    echo <<<HTML
                     <div id="recent-control">
                         <div id="expand-recent" class="pseudo-link">
-                            +<?php echo (count($posts) - GlobalConfig\SIDEBAR_RECENT_POST_COUNT); ?> more...
+                            +{$addl_posts} more...
                         </div>
                         <div id="collapse-recent" class="pseudo-link" style="display:none;">
-                            Hide <?php echo (count($posts) - GlobalConfig\SIDEBAR_RECENT_POST_COUNT); ?> more
+                            Hide {$addl_posts} more
                         </div>
                     </div>
-                <?php
+                    HTML;
                 }
                 ?>
             </div>

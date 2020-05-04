@@ -3,22 +3,20 @@ require_once "./util/_dbconn.php";
 require_once "./util/_page_config.php";
 include_once "./template/_post.php";
 
-$post = get_post($_GET['id'], GlobalConfig\SHOW_HIDDEN_POSTS);
+$post = get_about();
 
-if ($post === null) {
-    http_response_code(404);
-    include('./error/404.php');
-    die();
-}
-
-PageConfig::$title = $post->title;
+PageConfig::$title = $post !== null ? $post->title : 'About Me';
 
 include_once "./template/_header.php";
 ?>
 
 <main id="main-content">
     <?php
-    render_post($post);
+    if ($post !== null) {
+        render_post($post);
+    } else {
+        require_once './template/_about_default.php';
+    }
     ?>
 </main>
 

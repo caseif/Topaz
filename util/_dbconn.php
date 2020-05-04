@@ -21,6 +21,10 @@ function init_db(): void {
     if ($_db_link->connect_errno) {
         throw new RuntimeException('MySQL connect failed: '.$_db_link->connect_error);
     }
+
+    if (!get_db_link()->query('USE `'.GlobalConfig\DB_NAME.'`')) {
+        throw new RuntimeException('MySQL change DB failed: '.get_db_link()->error);
+    }
 }
 
 function get_db_link(): ?mysqli {
@@ -49,10 +53,6 @@ function row_to_post(array $row): Post {
 }
 
 function get_post_count($visible_only = true): int {
-    if (!get_db_link()->query('USE `'.GlobalConfig\DB_NAME.'`')) {
-        throw new RuntimeException('MySQL change db failed: '.get_db_link()->error);
-    }
-
     $query = 'SELECT COUNT(*) FROM `posts`';
 
     if ($visible_only) {
@@ -73,15 +73,11 @@ function get_post_count($visible_only = true): int {
 }
 
 function get_posts($offset = -1, $limit = -1, $reverse = false, $ignore_visibility = false): array {
-    if (!get_db_link()->query('USE `'.GlobalConfig\DB_NAME.'`')) {
-        throw new RuntimeException('MySQL change db failed: '.get_db_link()->error);
-    }
-
     $query = 'SELECT p.*, u.`display` AS `author_name` FROM `posts` p
-              INNER JOIN `login` AS u ON p.`author` = u.`id`';
+              INNER JOIN `login` AS u ON p.`author` = u.`id` WHERE p.`about`=0';
 
     if (!$ignore_visibility) {
-        $query .= ' WHERE p.`visible`=1';
+        $query .= ' AND p.`visible`=1';
     }
 
     $query .= ' ORDER BY p.`create_time`';
@@ -112,16 +108,15 @@ function get_posts($offset = -1, $limit = -1, $reverse = false, $ignore_visibili
     return $posts;
 }
 
-function get_post(int $id, bool $ignore_visibility = false): ?Post {
-    if (!get_db_link()->query('USE `'.GlobalConfig\DB_NAME.'`')) {
-        throw new RuntimeException('MySQL change db failed: '.get_db_link()->error);
-    }
-
+function get_post(int $id, bool $ignore_visibility = false, bool $exclude_about = true): ?Post {
     $query =   'SELECT p.*, u.`display` AS `author_name` FROM `posts` p
                     INNER JOIN `login` AS u ON p.`author` = u.`id`
-                    WHERE p.`id`=? AND p.`about`=0';
+                    WHERE p.`id`=?';
     if (!$ignore_visibility) {
         $query .= ' AND p.`visible`=1';
+    }
+    if ($exclude_about) {
+        $query .= ' AND p.`about`=0';
     }
     $query .= ' LIMIT 1';
 
@@ -153,20 +148,14 @@ function get_post(int $id, bool $ignore_visibility = false): ?Post {
 }
 
 function get_about(): ?Post {
-    if (!get_db_link()->query('USE `'.GlobalConfig\DB_NAME.'`')) {
-        throw new RuntimeException('MySQL change db failed: '.get_db_link()->error);
-    }
-
     $query =   'SELECT p.*, u.`display` AS `author_name` FROM `posts` p
                     INNER JOIN `login` AS u ON p.`author` = u.`id`
-                    WHERE p.`id`=? AND p.`visible`=1 LIMIT 1';
+                    WHERE p.`about`=1 AND p.`visible`=1 LIMIT 1';
     $stmt = get_db_link()->prepare($query);
 
     if (!$stmt) {
         throw new RuntimeException('MySQL prepare failed: '.get_db_link()->error);
     }
-
-    $stmt->bind_param('i', $id);
 
     $stmt->execute();
     $res = $stmt->get_result();
@@ -188,40 +177,45 @@ function get_about(): ?Post {
 }
 
 function create_post(string $title, string $content, bool $about): int {
-    if (!get_db_link()->query('USE `'.GlobalConfig\DB_NAME.'`')) {
-        throw new RuntimeException('MySQL change db failed: '.get_db_link()->error);
-    }
-
-    $query = 'INSERT INTO `posts` (`title`, `content`, `about`, `visible`, `create_time`) VALUES (?, ?, ?, 1, ?);';
+    $insert_query = 'INSERT INTO `posts` (`title`, `content`, `about`, `author`, `create_time`, `visible`) VALUES (?, ?, ?, ?, ?, 1);';
     if ($about) {
-        $query = 'UPDATE `posts` SET `about`=0;'.$query;
+        $rm_about_query = 'UPDATE `posts` SET `about`=0;';
+        $rm_about_stmt = get_db_link()->prepare($rm_about_query);
+
+        if (!$rm_about_stmt) {
+            throw new RuntimeException('MySQL prepare failed: '.get_db_link()->error);
+        }
     }
 
-    $stmt = get_db_link()->prepare($query);
+    $insert_stmt = get_db_link()->prepare($insert_query);
 
-    if (!$stmt) {
+    if (!$insert_stmt) {
         throw new RuntimeException('MySQL prepare failed: '.get_db_link()->error);
     }
 
     $about_i = intval($about);
     $time = time();
-    $stmt->bind_param('ssii', $title, $content, $about_i, $time);
+    $user_id = 1; //TODO: temporary
+    $insert_stmt->bind_param('ssisi', $title, $content, $about_i, $user_id, $time);
 
-    if (!$stmt->execute()) {
-        $stmt->close();
+    if ($about) {
+        if (!$rm_about_stmt->execute()) {
+            $rm_about_stmt->close();
+            throw new RuntimeException('MySQL execute failed: '.get_db_link()->error);
+        }
+    }
+
+    if (!$insert_stmt->execute()) {
+        $insert_stmt->close();
         throw new RuntimeException('MySQL execute failed: '.get_db_link()->error);
     }
 
-    $stmt->close();
+    $insert_stmt->close();
 
     return get_db_link()->insert_id;
 }
 
 function edit_post(int $id, string $title, string $content, bool $about): bool {
-    if (!get_db_link()->query('USE `'.GlobalConfig\DB_NAME.'`')) {
-        throw new RuntimeException('MySQL change db failed: '.get_db_link()->error);
-    }
-
     $query = 'UPDATE `posts` SET `title`=?, `content`=?, `about`=?, `update_time`=? WHERE `id`=?';
 
     $stmt = get_db_link()->prepare($query);
