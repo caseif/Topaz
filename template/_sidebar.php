@@ -4,7 +4,7 @@ const COOKIE_RECENT_EXPANDED = 'recent_expanded';
 
 $posts = get_posts(-1, -1, true, GlobalConfig\SHOW_HIDDEN_POSTS);
 
-$recent_expanded = $_COOKIE[COOKIE_RECENT_EXPANDED] === '1';
+$recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
 ?>
 
 <div id="sidebar">
