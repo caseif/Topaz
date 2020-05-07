@@ -1,29 +1,29 @@
+const COOKIE_RECENT_EXPANDED = "recent_expanded";
+
 $(document).ready(() => {
     $(".navbar-link").on("click", (evt: JQuery.ClickEvent) => {
         let $target: JQuery<HTMLAnchorElement> = $(evt.target);
-        console.log("click");
         if ($target.closest("a").length === 0) {
-            console.log("no parent");
-            console.log($target.find("a"));
             $target.find("a")[0].click();
         }
     });
 
     $("#recent-control").on("click", (evt: JQuery.ClickEvent) => {
         let root: JQuery<HTMLElement> = $(evt.target).parents(".sidebar-link").find("#post-list");
+        let expanded = false;
         if ($(evt.target).attr("id") === "expand-recent") {
-            root.find(".older").each((index: number, el: HTMLElement) => {
-                $(el).addClass("expanded");
-            });
+            root.addClass("expanded");
             $(evt.target).hide();
             $(evt.target).siblings("#collapse-recent").show();
+            expanded = true;
         } else if ($(evt.target).attr("id") === "collapse-recent") {
-            root.find(".older").each((index: number, el: HTMLElement) => {
-                $(el).removeClass("expanded");
-            });
+            root.removeClass("expanded");
             $(evt.target).hide();
             $(evt.target).siblings("#expand-recent").show();
+            expanded = false;
         }
+
+        document.cookie = `${COOKIE_RECENT_EXPANDED}=${expanded ? 1 : 0};0;path=/`;
     });
 
     $(".archive-year-label").on("click", (evt: JQuery.ClickEvent) => {

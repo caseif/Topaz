@@ -1,7 +1,7 @@
 <?php
 //TODO: check permission
 
-require_once('../util/_dbconn.php');
+require_once('../util/db/_db_posts.php');
 
 function action_save_post(?int $id, string $title, string $content, bool $about): array {
     try {

@@ -8,7 +8,13 @@
                         GlobalConfig\COPYRIGHT_NAME);
                 ?>
                 <span class="spacer"></span>
-                <a href="mailto:<?php echo GlobalConfig\CONTACT_EMAIL; ?>">Email Me!</a>
+                <?php
+                $email = GlobalConfig\CONTACT_EMAIL;
+                $email_msg = GlobalConfig\CONTACT_EMAIL_MSG;
+                echo <<<HTML
+                <a href="mailto:{$email}">{$email_msg}</a>
+                HTML;
+                ?>
             </div>
             <div class="footer-section">
                 <span class="fab fa-github"></span>

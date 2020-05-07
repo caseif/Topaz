@@ -21,6 +21,7 @@ const COPYRIGHT_START = "2013";
 const COPYRIGHT_END = null;
 const COPYRIGHT_NAME = "Max Roncace";
 
+const CONTACT_EMAIL_MSG = "Email Me!";
 const CONTACT_EMAIL = "me@caseif.net";
 const GITHUB_URL = "https://github.com/caseif/caseif.blog";
 

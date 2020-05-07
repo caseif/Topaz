@@ -1,7 +1,7 @@
 <?php
 include_once "./template/_pager.php";
 include_once "./template/_post.php";
-require_once "./util/_dbconn.php";
+require_once "./util/db/_db_posts.php";
 require_once "./util/_page_config.php";
 
 PageConfig::$title = "Home";

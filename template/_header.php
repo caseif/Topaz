@@ -2,7 +2,7 @@
 require_once dirname(__FILE__)."/../util/_utility.php";
 require_once dirname(__FILE__)."/../util/_global_config.php";
 require_once dirname(__FILE__)."/../util/_page_config.php";
-require_once dirname(__FILE__)."/../util/_dbconn.php";
+require_once dirname(__FILE__)."/../util/db/_db_posts.php";
 ?>
 
 <!DOCTYPE html>

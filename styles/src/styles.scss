@@ -323,10 +323,12 @@ button {
 
                 &.older {
                     display: none;
+                }
+            }
 
-                    &.expanded {
-                        display: list-item;
-                    }
+            &.expanded {
+                .older {
+                    display: list-item;
                 }
             }
         }

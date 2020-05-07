@@ -1,6 +1,10 @@
 
 <?php
+const COOKIE_RECENT_EXPANDED = 'recent_expanded';
+
 $posts = get_posts(-1, -1, true, GlobalConfig\SHOW_HIDDEN_POSTS);
+
+$recent_expanded = $_COOKIE[COOKIE_RECENT_EXPANDED] === '1';
 ?>
 
 <div id="sidebar">
@@ -8,10 +12,10 @@ $posts = get_posts(-1, -1, true, GlobalConfig\SHOW_HIDDEN_POSTS);
         <div class="sidebar-header">Recent Posts</div>
         <div class="sidebar-content">
             <div class="sidebar-link">
-                <ul id="post-list">
+                <ul id="post-list" <?php echo $recent_expanded ? 'class=expanded' : ''; ?>>
                     <?php
                     foreach ($posts as $post_index => $post) {
-                        $li_class = $post_index >= GlobalConfig\SIDEBAR_RECENT_POST_COUNT ? "class=\"older\"" : "";
+                        $li_class = $post_index >= GlobalConfig\SIDEBAR_RECENT_POST_COUNT ? 'class="older"' : '';
                         echo <<<HTML
                         <li {$li_class}>
                             <a href="/post.php?id={$post->id}">{$post->title}</a>
@@ -23,12 +27,14 @@ $posts = get_posts(-1, -1, true, GlobalConfig\SHOW_HIDDEN_POSTS);
                 <?php
                 if (count($posts) > GlobalConfig\SIDEBAR_RECENT_POST_COUNT) {
                     $addl_posts = count($posts) - GlobalConfig\SIDEBAR_RECENT_POST_COUNT;
+                    $expand_style = $recent_expanded ? 'style="display:none;"' : '';
+                    $collapse_style = !$recent_expanded ? 'style="display:none;"' : '';
                     echo <<<HTML
                     <div id="recent-control">
-                        <div id="expand-recent" class="pseudo-link">
+                        <div id="expand-recent" class="pseudo-link" {$expand_style}>
                             +{$addl_posts} more...
                         </div>
-                        <div id="collapse-recent" class="pseudo-link" style="display:none;">
+                        <div id="collapse-recent" class="pseudo-link" {$collapse_style}>
                             Hide {$addl_posts} more
                         </div>
                     </div>
