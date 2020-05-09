@@ -1,27 +1,24 @@
 <?php
 require_once dirname(__FILE__).'/../../util/_global_config.php';
+require_once dirname(__FILE__).'/../../util/_sec_config.php';
 
 $_db_link = null;
 
 function init_db(): void {
     global $_db_link;
 
-    $_sec_cfg_str = file_get_contents(GlobalConfig\SEC_CFG_FILE);
-    $_sec_cfg_json = json_decode($_sec_cfg_str, true);
-    if ($_sec_cfg_json === null) {
-        throw new RuntimeException('Failed to load secret config');
-    }
+    $_db_addr = get_secret_config()['database']['address'];
+    $_db_name = get_secret_config()['database']['name'];
+    $_db_user = get_secret_config()['database']['user'];
+    $_db_pass = get_secret_config()['database']['pass'];
 
-    $_db_user = $_sec_cfg_json['database']['user'];
-    $_db_pass = $_sec_cfg_json['database']['pass'];
-
-    $_db_link = mysqli_connect(GlobalConfig\DB_ADDR, $_db_user, $_db_pass);
+    $_db_link = mysqli_connect($_db_addr, $_db_user, $_db_pass);
 
     if ($_db_link->connect_errno) {
         throw new RuntimeException('MySQL connect failed: '.$_db_link->connect_error);
     }
 
-    if (!get_db_link()->query('USE `'.GlobalConfig\DB_NAME.'`')) {
+    if (!get_db_link()->query("USE `{$_db_name}`")) {
         throw new RuntimeException('MySQL change DB failed: '.get_db_link()->error);
     }
 }

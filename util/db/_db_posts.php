@@ -17,7 +17,7 @@ function row_to_post(array $row): Post {
     );
 }
 
-function get_post_count($visible_only = true): int {
+function get_post_count(bool $visible_only = true): int {
     $query = 'SELECT COUNT(*) FROM `posts`';
 
     if ($visible_only) {
@@ -37,7 +37,7 @@ function get_post_count($visible_only = true): int {
     return $count;
 }
 
-function get_posts($offset = -1, $limit = -1, $reverse = false, $ignore_visibility = false): array {
+function get_posts(int $offset = -1, int $limit = -1, bool $reverse = false, bool $ignore_visibility = false): array {
     $query = 'SELECT p.*, u.`display` AS `author_name` FROM `posts` p
               INNER JOIN `login` AS u ON p.`author` = u.`id` WHERE p.`about`=0';
 
@@ -74,8 +74,8 @@ function get_posts($offset = -1, $limit = -1, $reverse = false, $ignore_visibili
 }
 
 function get_post(int $id, bool $ignore_visibility = false, bool $exclude_about = true): ?Post {
-    $query =   'SELECT p.*, u.`display` AS `author_name` FROM `posts` p
-                    INNER JOIN `login` AS u ON p.`author` = u.`id`
+    $query =   'SELECT p.*, u.`name` AS `author_name` FROM `posts` p
+                    INNER JOIN `users` AS u ON p.`author` = u.`id`
                     WHERE p.`id`=?';
     if (!$ignore_visibility) {
         $query .= ' AND p.`visible`=1';
@@ -93,8 +93,12 @@ function get_post(int $id, bool $ignore_visibility = false, bool $exclude_about 
 
     $stmt->bind_param('i', $id);
 
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        throw new RuntimeException('MySQL execute failed: '.get_db_link()->error);
+    }
+
     $res = $stmt->get_result();
+    $stmt->close();
 
     if (!$res) {
         throw new RuntimeException('MySQL query failed: '.get_db_link()->error);
@@ -107,7 +111,6 @@ function get_post(int $id, bool $ignore_visibility = false, bool $exclude_about 
     $row = $res->fetch_assoc();
 
     $res->close();
-    $stmt->close();
 
     return row_to_post($row);
 }
@@ -122,8 +125,13 @@ function get_about(): ?Post {
         throw new RuntimeException('MySQL prepare failed: '.get_db_link()->error);
     }
 
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        $stmt->close();
+        throw new RuntimeException('MySQL execute failed: '.get_db_link()->error);
+    }
+
     $res = $stmt->get_result();
+    $stmt->close();
 
     if (!$res) {
         throw new RuntimeException('MySQL query failed: '.get_db_link()->error);
@@ -136,7 +144,6 @@ function get_about(): ?Post {
     $row = $res->fetch_assoc();
 
     $res->close();
-    $stmt->close();
 
     return row_to_post($row);
 }

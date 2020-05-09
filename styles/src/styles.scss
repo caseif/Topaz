@@ -121,7 +121,7 @@ button {
             height: $navbar-height;
             padding-left: 1.4rem;
             padding-right: 1.4rem;
-            line-height: 2.7rem;
+            line-height: 2.8rem;
             cursor: pointer;
 
             &.link-icon {
@@ -189,16 +189,28 @@ button {
     margin-bottom: 1rem;
 }
 
-.edit-section {
+.form-section {
     &:not(:last-child) {
         margin-bottom: 0.8rem;
     }
 
-    .edit-label {
-        font-size: 0.9rem;
+    &.form-error {
+        color: #d00000;
+        max-width: 60%;
     }
 
-    #edit-title-input {
+    .form-label {
+        display: block;
+        font-size: 0.9rem;
+
+        &.required::after {
+            content: '*';
+            padding-left: 0.1rem;
+            color: red;
+        }
+    }
+
+    input[type=text], input[type=password] {
         width: 60%;
     }
 

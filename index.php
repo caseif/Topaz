@@ -1,8 +1,9 @@
 <?php
 include_once "./template/_pager.php";
 include_once "./template/_post.php";
-require_once "./util/db/_db_posts.php";
 require_once "./util/_page_config.php";
+require_once "./util/_password.php";
+require_once "./util/db/_db_posts.php";
 
 PageConfig::$title = "Home";
 

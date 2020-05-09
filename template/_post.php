@@ -99,6 +99,9 @@ function render_post(Post $post, bool $abridge = false): void {
         $disp_title .= ' [Hidden]';
     }
 
+    $hide_lbl = $post->visible ? 'Hide' : 'Unhide';
+    $hide_fn = $post->visible ? 'confirmHide' : 'confirmUnhide';
+
     echo <<<HTML
     <article class="post" data-id="{$post->id}" data-title="{$post->title}">
         <header class="post-header">
@@ -120,7 +123,7 @@ function render_post(Post $post, bool $abridge = false): void {
                         <a href="/edit.php?id={$post->id}">Edit</a>
                     </span>
                     <span class="post-control">
-                        <a href="#" onclick="confirmDelete({$post->id});">Delete</a>
+                        <a href="#" onclick="{$hide_fn}({$post->id});">{$hide_lbl}</a>
                     </span>
                 </div>
                 <div class="post-controls-section">

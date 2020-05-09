@@ -9,9 +9,6 @@ const SITE_HEADER = "caseif's blog";
 
 const SEC_CFG_FILE = "/etc/blog/secret_config.json";
 
-const DB_ADDR = "localhost";
-const DB_NAME = "blog";
-
 const SIDEBAR_RECENT_POST_COUNT = 5;
 const HOME_RECENT_POST_COUNT = 5;
 const POST_ABRIDGED_CHARS = 600;
