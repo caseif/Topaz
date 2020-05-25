@@ -2,12 +2,13 @@
 require_once '../util/_user_session.php';
 require_once '../util/_utility.php';
 require_once '../util/db/_db_users.php';
+require_once '../util/_page_config.php';
 
 $form_error = null;
 
 $_created_user_id = null;
 
-if ($cur_user !== null) {
+if ($current_user !== null) {
     redirect_back();
 }
 
@@ -67,8 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirect_back();
     }
 }
-
-require_once '../util/_page_config.php';
 
 PageConfig::$title = 'Register';
 

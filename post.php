@@ -3,7 +3,7 @@ require_once "./util/db/_db_posts.php";
 require_once "./util/_page_config.php";
 include_once "./template/_post.php";
 
-$post = get_post($_GET['id'], GlobalConfig\SHOW_HIDDEN_POSTS);
+$post = get_post($_GET['id']);
 
 if ($post === null) {
     http_response_code(404);

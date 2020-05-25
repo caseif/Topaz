@@ -3,7 +3,7 @@ require_once '../util/_user_session.php';
 require_once '../util/_page_config.php';
 require_once '../util/db/_db_users.php';
 
-if ($cur_user !== null) {
+if ($current_user !== null) {
     redirect_back();
 }
 

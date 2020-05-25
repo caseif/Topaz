@@ -7,15 +7,28 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     die();
 }
+
 if (!isset($_POST['action']) || !isset($_POST['id'])) {
     http_response_code(400);
     die();
 }
 
-ob_start();
-
 $action = $_POST['action'];
 $id = $_POST['id'];
+
+$post = get_post($id, false, false);
+
+if ($post === null) {
+    http_response_code(404);
+    die();
+}
+
+if (!$current_user->admin && $post->author_id !== $current_user->id) {
+    http_response_code(403);
+    die();
+}
+
+ob_start();
 
 // update
 $result = null;
@@ -38,6 +51,10 @@ try {
             'message' => 'Unknown error'
         );
     }
+
+    $resp = array(
+        'success' => true
+    );
 } catch (Exception $ex) {
     $resp = array(
         'success' => false,

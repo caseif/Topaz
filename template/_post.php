@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__FILE__).'/../lib/_parsedown.php';
+require_once dirname(__FILE__).'/../util/_user_session.php';
 
 function aware_substr(string $str, int $len) {
     if (strlen($str) <= $len) {
@@ -77,6 +78,8 @@ function abridge_text(string $text) {
 }
 
 function render_post(Post $post, bool $abridge = false): void {
+    global $current_user;
+
     $parsedown = new Parsedown();
 
     $human_date = date('F j, Y', $post->create_time);
@@ -99,8 +102,30 @@ function render_post(Post $post, bool $abridge = false): void {
         $disp_title .= ' [Hidden]';
     }
 
-    $hide_lbl = $post->visible ? 'Hide' : 'Unhide';
-    $hide_fn = $post->visible ? 'confirmHide' : 'confirmUnhide';
+    $controls_html = '';
+    global $_seen_user_id;
+    if (true || ($current_user !== null && ($current_user->admin || $current_user->id === $post->author_id))) {
+        $hide_lbl = $post->visible ? 'Hide ' : 'Unhide';
+        $hide_fn = $post->visible ? 'confirmHide' : 'confirmUnhide';
+
+        $controls_html = <<<HTML
+        <div class="post-controls">
+            <div class="post-controls-section">
+                <span class="post-control">
+                    <a href="/edit.php?id={$post->id}">Edit</a>
+                </span>
+                <span class="post-control">
+                    <a href="#" onclick="{$hide_fn}({$post->id});">{$hide_lbl}</a>
+                </span>
+            </div>
+            <div class="post-controls-section">
+                <span class="post-control">
+                    <a href="#" onclick="confirmPermaDelete({$post->id});">Delete Permanently</a>
+                </span>
+            </div>
+        </div>
+        HTML;
+    }
 
     echo <<<HTML
     <article class="post" data-id="{$post->id}" data-title="{$post->title}">
@@ -117,21 +142,7 @@ function render_post(Post $post, bool $abridge = false): void {
             <div class="post-signature">
                 Posted by {$post->author_name} on <time datetime="{$robot_date}">{$human_date}</time>
             </div>
-            <div class="post-controls">
-                <div class="post-controls-section">
-                    <span class="post-control">
-                        <a href="/edit.php?id={$post->id}">Edit</a>
-                    </span>
-                    <span class="post-control">
-                        <a href="#" onclick="{$hide_fn}({$post->id});">{$hide_lbl}</a>
-                    </span>
-                </div>
-                <div class="post-controls-section">
-                    <span class="post-control">
-                        <a href="#" onclick="confirmPermaDelete({$post->id});">Delete Permanently</a>
-                    </span>
-                </div>
-            </div>
+            {$controls_html}
         </footer>
     </article>
     HTML;

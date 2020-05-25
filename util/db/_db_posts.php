@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__).'/../../util/db/_db_common.php';
 require_once dirname(__FILE__).'/../../model/_post.php';
+require_once dirname(__FILE__).'/../../util/_user_session.php';
 
 function row_to_post(array $row): Post {
     return new Post(
@@ -17,14 +18,40 @@ function row_to_post(array $row): Post {
     );
 }
 
-function get_post_count(bool $visible_only = true): int {
-    $query = 'SELECT COUNT(*) FROM `posts`';
+function get_post_count(bool $ignore_visibility = false): int {
+    global $current_user;
 
-    if ($visible_only) {
-        $query .= ' WHERE `visible`=1';
+    $bind_user_param = false;
+
+    $query = 'SELECT COUNT(*) FROM `posts` p
+              LEFT JOIN `users` AS u ON p.`author`=u.`id` WHERE p.`about`=0';
+
+    if (!$ignore_visibility) {
+        $query .= ' AND (p.`visible`=1';
+        
+        if ($current_user !== null) {
+            $query .= ' OR p.`author`=?';
+            $bind_user_param = true;
+        }
+        
+        $query .= ')';
     }
 
-    $res = get_db_link()->query($query);
+    $stmt = get_db_link()->prepare($query);
+
+    if (!$stmt) {
+        throw new RuntimeException('MySQL prepare failed: '.get_db_link()->error);
+    }
+
+    if ($bind_user_param) {
+        $stmt->bind_param('i', $current_user->id);
+    }
+
+    if (!$stmt->execute()) {
+        throw new RuntimeException('MySQL execute failed: '.get_db_link()->error);
+    }
+
+    $res = $stmt->get_result();
 
     if (!$res) {
         throw new RuntimeException('MySQL query failed: '.get_db_link()->error);
@@ -37,13 +64,22 @@ function get_post_count(bool $visible_only = true): int {
     return $count;
 }
 
-function get_posts(int $offset = -1, int $limit = -1, bool $reverse = false, bool $ignore_visibility = false): array {
-    $query = 'SELECT p.*, u.`display` AS `author_name` FROM `posts` p
-              INNER JOIN `login` AS u ON p.`author` = u.`id` WHERE p.`about`=0';
+function get_posts(int $offset = -1, int $limit = -1, bool $reverse = false): array {
+    global $current_user;
 
-    if (!$ignore_visibility) {
-        $query .= ' AND p.`visible`=1';
+    $bind_user_param = false;
+
+    $query = 'SELECT p.*, IFNULL(u.`name`,\'Unknown\') AS `author_name` FROM `posts` p
+              LEFT JOIN `users` AS u ON p.`author`=u.`id` WHERE p.`about`=0';
+
+    $query .= ' AND (p.`visible`=1';
+    
+    if ($current_user !== null) {
+        $query .= ' OR p.`author`=?';
+        $bind_user_param = true;
     }
+    
+    $query .= ')';
 
     $query .= ' ORDER BY p.`create_time`';
     if ($reverse) {
@@ -57,7 +93,21 @@ function get_posts(int $offset = -1, int $limit = -1, bool $reverse = false, boo
         $query .= ' OFFSET '.$offset;
     }
 
-    $res = get_db_link()->query($query);
+    $stmt = get_db_link()->prepare($query);
+
+    if (!$stmt) {
+        throw new RuntimeException('MySQL prepare failed: '.get_db_link()->error);
+    }
+    
+    if ($bind_user_param) {
+        $stmt->bind_param('i', $current_user->id);
+    }
+
+    if (!$stmt->execute()) {
+        throw new RuntimeException('MySQL execute failed: '.get_db_link()->error);
+    }
+
+    $res = $stmt->get_result();
 
     if (!$res) {
         throw new RuntimeException('MySQL query failed: '.get_db_link()->error);
@@ -73,13 +123,26 @@ function get_posts(int $offset = -1, int $limit = -1, bool $reverse = false, boo
     return $posts;
 }
 
-function get_post(int $id, bool $ignore_visibility = false, bool $exclude_about = true): ?Post {
-    $query =   'SELECT p.*, u.`name` AS `author_name` FROM `posts` p
-                    INNER JOIN `users` AS u ON p.`author` = u.`id`
+function get_post(int $id, bool $ignore_access = false, bool $exclude_about = true): ?Post {
+    global $current_user;
+
+    $bind_user_param = false;
+
+    $query =   'SELECT p.*, IFNULL(u.`name`, \'Unknown\') AS `author_name` FROM `posts` p
+                    INNER JOIN `users` AS u ON p.`author`=u.`id`
                     WHERE p.`id`=?';
-    if (!$ignore_visibility) {
-        $query .= ' AND p.`visible`=1';
+    
+    if (!$ignore_access) {
+        $query .= ' AND (p.`visible`=1';
+
+        if ($current_user !== null) {
+            $query .= ' OR p.`author`=?';
+            $bind_user_param = true;
+        }
     }
+
+    $query .= ')';
+
     if ($exclude_about) {
         $query .= ' AND p.`about`=0';
     }
@@ -91,7 +154,11 @@ function get_post(int $id, bool $ignore_visibility = false, bool $exclude_about 
         throw new RuntimeException('MySQL prepare failed: '.get_db_link()->error);
     }
 
-    $stmt->bind_param('i', $id);
+    if ($bind_user_param) {
+        $stmt->bind_param('ii', $id, $current_user->id);
+    } else {
+        $stmt->bind_param('i', $id);
+    }
 
     if (!$stmt->execute()) {
         throw new RuntimeException('MySQL execute failed: '.get_db_link()->error);
@@ -116,13 +183,30 @@ function get_post(int $id, bool $ignore_visibility = false, bool $exclude_about 
 }
 
 function get_about(): ?Post {
-    $query =   'SELECT p.*, u.`display` AS `author_name` FROM `posts` p
-                    INNER JOIN `login` AS u ON p.`author` = u.`id`
-                    WHERE p.`about`=1 AND p.`visible`=1 LIMIT 1';
+    global $current_user;
+    
+    $bind_user_param = false;
+
+    $query =   'SELECT p.*, IFNULL(u.`name`, \'Unknown\') AS `author_name` FROM `posts` p
+                    INNER JOIN `users` AS u ON p.`author` = u.`id`
+                    WHERE p.`about`=1';
+    
+    $query .= ' AND (p.`visible`=1';
+    if ($current_user !== null) {
+        $query .= ' OR p.`author`=?';
+        $bind_user_param = true;
+    }
+    $query .= ')';
+
+    $query .= ' LIMIT 1';
     $stmt = get_db_link()->prepare($query);
 
     if (!$stmt) {
         throw new RuntimeException('MySQL prepare failed: '.get_db_link()->error);
+    }
+
+    if ($bind_user_param) {
+        $stmt->bind_param('i', $current_user->id);
     }
 
     if (!$stmt->execute()) {

@@ -2,7 +2,7 @@
 <?php
 const COOKIE_RECENT_EXPANDED = 'recent_expanded';
 
-$posts = get_posts(-1, -1, true, GlobalConfig\SHOW_HIDDEN_POSTS);
+$posts = get_posts(-1, -1, true);
 
 $recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
 ?>

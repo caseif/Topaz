@@ -65,11 +65,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $post = null;
 if (isset($_GET['id'])) {
-    $post = get_post($_GET['id'], GlobalConfig\SHOW_HIDDEN_POSTS, false);
+    $post = get_post($_GET['id'], false, false);
 
     if ($post === null) {
         http_response_code(404);
         include('./error/404.php');
+        die();
+    }
+
+    if (!$current_user->admin && $post->author_id !== $current_user->id) {
+        http_response_code(403);
+        include('./error/403.php');
         die();
     }
 }
