@@ -2,4 +2,4 @@
 
 tsc
 
-sass --scss --style compressed --update ./styles/src/:./styles/built/
+sass --scss --style compressed --update ./src/styles/src/:./src/styles/built/

@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/../../util/_global_config.php';
-require_once dirname(__FILE__).'/../../util/_sec_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_global_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_sec_config.php';
 
 $_db_link = null;
 

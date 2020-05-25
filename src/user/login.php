@@ -1,7 +1,8 @@
 <?php
-require_once '../util/_user_session.php';
-require_once '../util/_page_config.php';
-require_once '../util/db/_db_users.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_utility.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_user_session.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_page_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_users.php';
 
 if ($current_user !== null) {
     redirect_back();
@@ -10,15 +11,6 @@ if ($current_user !== null) {
 $form_error = null;
 
 $_login_user_id = null;
-
-function redirect_back() {
-    $redir_page = $_POST['back'] ?? '/';
-    if (empty($redir_page)) {
-        $redir_page = '/';
-    }
-    header("Location: {$redir_page}");
-    die();
-}
 
 function handle_submit(): ?string {
     global $_login_user_id;
@@ -51,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 PageConfig::$title = 'Log In';
 
-include_once "../template/_header.php";
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_header.php';
 ?>
 
 <main id="main-content">
@@ -64,7 +56,7 @@ include_once "../template/_header.php";
         </div>
         <div id="login-username" class="form-section">
             <label class="form-label required" for="login-username-input">Username</label>
-            <input type="text" id="login-username-input" name="username" value="<?php echo getPostVal('username') ?>"
+            <input type="text" id="login-username-input" name="username" value="<?php echo get_post_val('username') ?>"
                     required="required" maxlength="64" />
         </div>
         <div id="login-password" class="form-section">
@@ -81,6 +73,6 @@ include_once "../template/_header.php";
 </main>
 
 <?php
-include_once "../template/_sidebar.php";
-include_once "../template/_footer.php";
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_sidebar.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_footer.php';
 ?>

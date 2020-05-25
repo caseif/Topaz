@@ -1,8 +1,8 @@
 <?php
 namespace GlobalConfig;
 
-require_once dirname(__FILE__)."/../model/_ext_link.php";
-require_once dirname(__FILE__)."/../model/_navbar_link.php";
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/_ext_link.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/_navbar_link.php';
 
 const SITE_NAME = "caseif.blog";
 const SITE_HEADER = "caseif's blog";

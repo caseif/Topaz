@@ -1,9 +1,9 @@
 <?php
-include_once "./template/_pager.php";
-include_once "./template/_post.php";
-require_once "./util/_page_config.php";
-require_once "./util/_password.php";
-require_once "./util/db/_db_posts.php";
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_pager.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_post.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_page_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_password.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_posts.php';
 
 PageConfig::$title = "Home";
 
@@ -17,11 +17,11 @@ $page_count = ceil(get_post_count() / GlobalConfig\HOME_RECENT_POST_COUNT);
 
 if ($page < 1 || $page > $page_count) {
     http_response_code(404);
-    include('./error/404.php');
+    include $_SERVER['DOCUMENT_ROOT'].'/error/404.php';
     die();
 }
 
-include_once "./template/_header.php";
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_header.php';
 ?>
 
 <div id="main-content">
@@ -42,6 +42,6 @@ include_once "./template/_header.php";
 </div>
 
 <?php
-include_once "./template/_sidebar.php";
-include_once "./template/_footer.php";
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_sidebar.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_footer.php';
 ?>

@@ -1,7 +1,7 @@
 <?php
 //TODO: check permission
 
-require_once('../util/db/_db_posts.php');
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_posts.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);

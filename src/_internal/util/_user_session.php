@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../util/db/_db_users.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_users.php';
 
 session_start();
 

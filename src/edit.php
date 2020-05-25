@@ -1,7 +1,7 @@
 <?php
-require_once "./util/db/_db_posts.php";
-require_once "./util/_page_config.php";
-include_once "./template/_post.php";
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_posts.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_page_config.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_post.php';
 
 $_created_id = null;
 
@@ -69,13 +69,13 @@ if (isset($_GET['id'])) {
 
     if ($post === null) {
         http_response_code(404);
-        include('./error/404.php');
+        include $_SERVER['DOCUMENT_ROOT'].'/error/404.php';
         die();
     }
 
     if (!$current_user->admin && $post->author_id !== $current_user->id) {
         http_response_code(403);
-        include('./error/403.php');
+        include $_SERVER['DOCUMENT_ROOT'].'/error/403.php';
         die();
     }
 }
@@ -86,7 +86,7 @@ if ($post !== null) {
     PageConfig::$title = 'Create Post';
 }
 
-include_once "./template/_header.php";
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_header.php';
 ?>
 
 <main id="main-content">
@@ -104,15 +104,15 @@ include_once "./template/_header.php";
             HTML;
         }
 
-        $title_val = getPostVal("title");
+        $title_val = get_post_val("title");
         if (empty($title_val)) {
             $title_val = $post !== null ? $post->title : '';
         }
-        $content_val = getPostVal("content");
+        $content_val = get_post_val("content");
         if (empty($content_val)) {
             $content_val = $post !== null ? $post->content : '';
         }
-        $about_str = getPostVal("content");
+        $about_str = get_post_val("content");
         $about_sel = false;
         if (!empty($about_str)) {
             $about_sel = $about_str === '1';
@@ -151,6 +151,6 @@ include_once "./template/_header.php";
 </main>
 
 <?php
-include_once "./template/_sidebar.php";
-include_once "./template/_footer.php";
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_sidebar.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_footer.php';
 ?>

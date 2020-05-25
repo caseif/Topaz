@@ -1,6 +1,6 @@
 <?php
-require_once dirname(__FILE__).'/../lib/_parsedown.php';
-require_once dirname(__FILE__).'/../util/_user_session.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/lib/_parsedown.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_user_session.php';
 
 function aware_substr(string $str, int $len) {
     if (strlen($str) <= $len) {
@@ -104,7 +104,7 @@ function render_post(Post $post, bool $abridge = false): void {
 
     $controls_html = '';
     global $_seen_user_id;
-    if (true || ($current_user !== null && ($current_user->admin || $current_user->id === $post->author_id))) {
+    if ($current_user !== null && ($current_user->admin || $current_user->id === $post->author_id)) {
         $hide_lbl = $post->visible ? 'Hide ' : 'Unhide';
         $hide_fn = $post->visible ? 'confirmHide' : 'confirmUnhide';
 

@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/../util/_global_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_global_config.php';
 
 $_sec_cfg_json = null;
 

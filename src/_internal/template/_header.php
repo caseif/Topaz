@@ -1,8 +1,8 @@
 <?php
-require_once dirname(__FILE__)."/../util/_utility.php";
-require_once dirname(__FILE__)."/../util/_global_config.php";
-require_once dirname(__FILE__)."/../util/_page_config.php";
-require_once dirname(__FILE__)."/../util/db/_db_posts.php";
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_utility.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_global_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_page_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_posts.php';
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ require_once dirname(__FILE__)."/../util/db/_db_posts.php";
 <head>
     <title>
         <?php
-        if (isNullOrEmpty(PageConfig::$title)) {
+        if (is_null_or_empty(PageConfig::$title)) {
             echo "caseif.blog";
         } else {
             echo PageConfig::$title." - ".GlobalConfig\SITE_NAME;
@@ -35,6 +35,6 @@ require_once dirname(__FILE__)."/../util/db/_db_posts.php";
 <body>
     <div id="container">
         <?php
-        include_once dirname(__FILE__)."/../template/_navbar.php";
+        include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_navbar.php';
         ?>
         <div id="page-body">

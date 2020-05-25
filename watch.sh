@@ -3,7 +3,7 @@
 tsc --watch &
 ts_pid=$!
 
-sass --scss --style compressed --watch ./styles/src/:./styles/built/ &
+sass --scss --style compressed --watch ./src/styles/src/:./src/styles/built/ &
 sass_pid=$!
 
 echo $ts_pid

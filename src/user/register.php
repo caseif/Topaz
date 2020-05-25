@@ -1,8 +1,8 @@
 <?php
-require_once '../util/_user_session.php';
-require_once '../util/_utility.php';
-require_once '../util/db/_db_users.php';
-require_once '../util/_page_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_utility.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_user_session.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_users.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_page_config.php';
 
 $form_error = null;
 
@@ -10,15 +10,6 @@ $_created_user_id = null;
 
 if ($current_user !== null) {
     redirect_back();
-}
-
-function redirect_back() {
-    $redir_page = $_POST['back'] ?? '/';
-    if (empty($redir_page)) {
-        $redir_page = '/';
-    }
-    header("Location: {$redir_page}");
-    die();
 }
 
 function handle_submit(): ?string {
@@ -71,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 PageConfig::$title = 'Register';
 
-include_once '../template/_header.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_header.php';
 ?>
 
 <main id="main-content">
@@ -86,12 +77,12 @@ include_once '../template/_header.php';
         <div id="register-username" class="form-section">
             <label class="form-label required" for="register-username-input">Username</label>
             <input type="text" id="register-username-input" name="username" required="required" maxlength="64"
-                    value="<?php echo getPostVal('username'); ?>" />
+                    value="<?php echo get_post_val('username'); ?>" />
         </div>
         <div id="register-fullname" class="form-section">
             <label class="form-label required" for="register-fullname-input">Full Name</label>
             <input type="text" id="register-fullname-input" name="fullname" required="required" maxlength="64"
-                    value="<?php echo getPostVal('fullname'); ?>" />
+                    value="<?php echo get_post_val('fullname'); ?>" />
         </div>
         <div id="register-password" class="form-section">
             <label class="form-label required" for="register-password-input">Password</label>
@@ -106,7 +97,7 @@ include_once '../template/_header.php';
         <div id="register-ticket" class="form-section">
             <label class="form-label required" for="register-ticket-input">Registration ticket</label>
             <input type="password" id="register-ticket-input" name="ticket" required="required"
-                    value="<?php echo getPostVal('ticket'); ?>" />
+                    value="<?php echo get_post_val('ticket'); ?>" />
         </div>
 
         <div class="form-section">
@@ -118,6 +109,6 @@ include_once '../template/_header.php';
 </main>
 
 <?php
-include_once "../template/_sidebar.php";
-include_once "../template/_footer.php";
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_sidebar.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_footer.php';
 ?>
