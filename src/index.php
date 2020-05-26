@@ -13,7 +13,7 @@ if (!is_numeric($page)) {
     $page = 1;
 }
 
-$page_count = ceil(get_post_count() / GlobalConfig\HOME_RECENT_POST_COUNT);
+$page_count = ceil(get_post_count() / GlobalConfig\get_config()->home_recent_post_count);
 
 if ($page < 1 || $page > $page_count) {
     http_response_code(404);
@@ -27,8 +27,8 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_header.php';
 <div id="main-content">
     <div id="post-previews">
         <?php
-        $posts = get_posts(($page - 1) * GlobalConfig\HOME_RECENT_POST_COUNT,
-                GlobalConfig\HOME_RECENT_POST_COUNT, true);
+        $posts = get_posts(($page - 1) * GlobalConfig\get_config()->home_recent_post_count,
+                GlobalConfig\get_config()->home_recent_post_count, true);
 
         foreach ($posts as $post_index => $post) {
             render_post($post, true);

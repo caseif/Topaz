@@ -15,4 +15,16 @@ function redirect_back() {
     header("Location: {$redir_page}");
     die();
 }
+
+function get_array_item(array $arr, string $key, $def = null) {
+    if (isset($arr[$key])) {
+        return $arr[$key];
+    } else {
+        return $def;
+    }
+}
+
+function get_session_var(string $key, $def = null) {
+    return get_array_item($_SESSION, $key, $def);
+}
 ?>

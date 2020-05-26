@@ -15,7 +15,7 @@ $recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
                 <ul id="post-list" <?php echo $recent_expanded ? 'class=expanded' : ''; ?>>
                     <?php
                     foreach ($posts as $post_index => $post) {
-                        $li_class = $post_index >= GlobalConfig\SIDEBAR_RECENT_POST_COUNT ? 'class="older"' : '';
+                        $li_class = $post_index >= GlobalConfig\get_config()->sidebar_recent_post_count ? 'class="older"' : '';
                         echo <<<HTML
                         <li {$li_class}>
                             <a href="/post.php?id={$post->id}">{$post->title}</a>
@@ -25,8 +25,8 @@ $recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
                     ?>
                 </ul>
                 <?php
-                if (count($posts) > GlobalConfig\SIDEBAR_RECENT_POST_COUNT) {
-                    $addl_posts = count($posts) - GlobalConfig\SIDEBAR_RECENT_POST_COUNT;
+                if (count($posts) > GlobalConfig\get_config()->sidebar_recent_post_count) {
+                    $addl_posts = count($posts) - GlobalConfig\get_config()->sidebar_recent_post_count;
                     $expand_style = $recent_expanded ? 'style="display:none;"' : '';
                     $collapse_style = !$recent_expanded ? 'style="display:none;"' : '';
                     echo <<<HTML
@@ -115,7 +115,7 @@ $recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
         <div class="sidebar-header">Links</div>
         <div id="external-links" class="sidebar-content">
             <?php
-            foreach ($EXTERNAL_LINKS as $link) {
+            foreach (GlobalConfig\get_config()->external_links as $link) {
                 echo $link->to_html();
             }
             ?>

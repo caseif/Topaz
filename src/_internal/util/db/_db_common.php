@@ -1,24 +1,20 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_global_config.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_sec_config.php';
 
 $_db_link = null;
 
 function init_db(): void {
     global $_db_link;
 
-    $_db_addr = get_secret_config()['database']['address'];
-    $_db_name = get_secret_config()['database']['name'];
-    $_db_user = get_secret_config()['database']['user'];
-    $_db_pass = get_secret_config()['database']['pass'];
+    $db_config = GlobalConfig\get_config()->database;
 
-    $_db_link = mysqli_connect($_db_addr, $_db_user, $_db_pass);
+    $_db_link = mysqli_connect($db_config->address, $db_config->user, $db_config->password);
 
     if ($_db_link->connect_errno) {
         throw new RuntimeException('MySQL connect failed: '.$_db_link->connect_error);
     }
 
-    if (!get_db_link()->query("USE `{$_db_name}`")) {
+    if (!get_db_link()->query("USE `{$db_config->name}`")) {
         throw new RuntimeException('MySQL change DB failed: '.get_db_link()->error);
     }
 }

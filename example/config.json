@@ -1,0 +1,44 @@
+{
+    "database": {
+        "address": "localhost",
+        "name": "blog",
+        "user": "dbuser",
+        "password": "dbpass"
+    },
+    "admin_ticket": "changeme",
+    "site_title": "My Blog",
+    "site_header": "My Blog",
+    "home_recent_post_count": 5,
+    "sidebar_recent_post_count": 5,
+    "post_preview_chars": 600,
+    "copyright": {
+        "name": "John Smith",
+        "start_year": "2020",
+        "end_year": null
+    },
+    "contact_email": "contact@example.com",
+    "contact_email_text": "Email Me",
+    "github_url": "https://github.com/caseif/caseif.blog",
+    "navbar_links": [
+        {
+            "type": "icon",
+            "icon_namespace": "fab",
+            "icon_id": "twitter",
+            "title_text": "Twitter",
+            "url": "https://twitter.com/jack"
+        },
+        {
+            "type": "text",
+            "text": "About",
+            "title_text": "About Me",
+            "url": "/about.php"
+        }
+    ],
+    "external_links": [
+        {
+            "text": "GitHub",
+            "title_text": "My GitHub Profile",
+            "url": "https://github.com/github"
+        }
+    ]
+}

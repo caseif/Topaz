@@ -41,7 +41,7 @@ function get_user(int $user_id): ?User {
 function create_user(string $username, string $name, string $password, string $reg_code): int {
     $admin = false;
 
-    if ($reg_code === get_secret_config()['admin_ticket']) {
+    if ($reg_code === GlobalConfig\get_config()->admin_ticket) {
         $admin = true;
     } else {
         //TODO: regular user registration codes?
