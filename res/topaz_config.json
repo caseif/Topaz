@@ -6,6 +6,9 @@
         "password": "dbpass"
     },
     "admin_ticket": "changeme",
+    "open_registration": false,
+    "show_login_links": true,
+    "allow_read_by_default": true,
     "site_title": "My Blog",
     "site_header": "My Blog",
     "home_recent_post_count": 5,

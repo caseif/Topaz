@@ -35,7 +35,7 @@ function get_user(int $user_id): ?User {
     $res->close();
 
     return new User($row['id'], $row['username'], $row['name'], $row['register_time'], $row['active'] === 1,
-            $row['admin'] === 1);
+            $row['permission_mask']);
 }
 
 function create_user(string $username, string $name, string $password, string $reg_code): int {
@@ -75,7 +75,8 @@ function create_user(string $username, string $name, string $password, string $r
     }
 
     
-    $insert_query = 'INSERT INTO `users` (`username`, `name`, `pass_hash`, `register_time`, `active`, `admin`) VALUES (?, ?, ?, ?, 1, ?);';
+    $insert_query = 'INSERT INTO `users` (`username`, `name`, `pass_hash`, `register_time`, `active`, `permission_mask`)
+                         VALUES (?, ?, ?, ?, 1, ?);';
     
     $pass_hash = generate_hash($password);
 
@@ -87,7 +88,7 @@ function create_user(string $username, string $name, string $password, string $r
     $username = trim($username);
     $name = trim($name);
     $time = time();
-    $insert_stmt->bind_param('sssii', $username, $name, $pass_hash, $time, $admin);
+    $insert_stmt->bind_param('sssii', $username, $name, $pass_hash, $time, $admin ? 0xffffffff : 0);
 
     if (!$insert_stmt->execute()) {
         $insert_stmt->close();

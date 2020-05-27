@@ -9,7 +9,7 @@ CREATE TABLE `users` (
   `pass_hash` VARCHAR(60) NOT NULL,
   `register_time` INT(8) NOT NULL,
   `active` TINYINT(1) NOT NULL,
-  `admin` TINYINT(1) NOT NULL
+  `permission_mask` INT(4) NOT NULL DEFAULT '4'
 );
 
 -- create categories table

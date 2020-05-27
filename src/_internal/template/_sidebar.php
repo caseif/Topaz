@@ -111,9 +111,52 @@ $recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
             ?>
         </div>
     </div>
+    <?php
+    if ($current_user !== null && $current_user->permissions->write) {
+        echo <<<HTML
+        <div class="sidebar-section">
+            <div class="sidebar-header">Content Management</div>
+            <div class="sidebar-content sidebar-links">
+                <div class="sidebar-link">
+                    <a href="/edit.php">Create a Post</a>
+                </div>
+            </div>
+        </div>
+        HTML;
+    }
+    if ($current_user !== null || GlobalConfig\get_config()->show_login_links) {
+        $back_uri = $_SERVER['REQUEST_URI'];
+        if ($current_user !== null) {
+            echo <<<HTML
+            <div class="sidebar-section">
+                <div class="sidebar-header">User Management</div>
+                <div id="user-links" class="sidebar-content sidebar-links">
+                    <div class="sidebar-link">
+                        <a href="/user/logout.php?back={$back_uri}">Log Out</a>
+                    </div>
+                </div>
+            </div>
+            HTML;
+        } else {
+            echo <<<HTML
+            <div class="sidebar-section">
+                <div class="sidebar-header">User Management</div>
+                <div id="user-links" class="sidebar-content sidebar-links">
+                    <div class="sidebar-link">
+                        <a href="/user/login.php?back={$back_uri}">Log In</a>
+                    </div>
+                    <div class="sidebar-link">
+                        <a href="/user/register.php?back={$back_uri}">Register</a>
+                    </div>
+                </div>
+            </div>
+            HTML;
+        }
+    }
+    ?>
     <div class="sidebar-section">
         <div class="sidebar-header">Links</div>
-        <div id="external-links" class="sidebar-content">
+        <div id="external-links" class="sidebar-content sidebar-links">
             <?php
             foreach (GlobalConfig\get_config()->external_links as $link) {
                 echo $link->to_html();

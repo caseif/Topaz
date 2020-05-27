@@ -23,7 +23,7 @@ if ($post === null) {
     die();
 }
 
-if (!$current_user->admin && $post->author_id !== $current_user->id) {
+if (!$current_user->permissions->write_other && $post->author_id !== $current_user->id) {
     http_response_code(403);
     die();
 }

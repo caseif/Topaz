@@ -24,6 +24,7 @@ class DatabaseConfig {
 class BlogConfig {
     public DatabaseConfig $database;
     public string $admin_ticket;
+    public bool $show_login_links;
     public string $site_title;
     public string $site_header;
     public int $home_recent_post_count;
@@ -72,6 +73,7 @@ function parse_config(): BlogConfig {
     $config = new BlogConfig();
     $config->database = $db_config;
     $config->admin_ticket = $config_json['admin_ticket'];
+    $config->show_login_links = $config_json['show_login_links'];
     $config->site_title = $config_json['site_title'];
     $config->site_header = $config_json['site_header'];
     $config->home_recent_post_count = $config_json['home_recent_post_count'];

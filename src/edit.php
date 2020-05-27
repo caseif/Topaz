@@ -63,6 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+if (!$current_user->permissions->write) {
+    http_response_code(403);
+    include $_SERVER['DOCUMENT_ROOT'].'/error/403.php';
+    die();
+}
+
 $post = null;
 if (isset($_GET['id'])) {
     $post = get_post($_GET['id'], false, false);
@@ -73,7 +79,8 @@ if (isset($_GET['id'])) {
         die();
     }
 
-    if (!$current_user->admin && $post->author_id !== $current_user->id) {
+    if (!($current_user->permissions->write_other
+            || $post->author_id !== $current_user->id)) {
         http_response_code(403);
         include $_SERVER['DOCUMENT_ROOT'].'/error/403.php';
         die();

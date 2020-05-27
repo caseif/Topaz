@@ -103,8 +103,9 @@ function render_post(Post $post, bool $abridge = false): void {
     }
 
     $controls_html = '';
-    global $_seen_user_id;
-    if ($current_user !== null && ($current_user->admin || $current_user->id === $post->author_id)) {
+    if ($current_user !== null
+            && ($current_user->permissions->write_other
+                    || ($current_user->id === $post->author_id && $current_user->permissions->write))) {
         $hide_lbl = $post->visible ? 'Hide ' : 'Unhide';
         $hide_fn = $post->visible ? 'confirmHide' : 'confirmUnhide';
 
