@@ -5,7 +5,10 @@ use ImageNavbarLink;
 use RuntimeException;
 use TextNavbarLink;
 
-const CONFIG_PATH = "/etc/blog/config.json";
+if (getenv('TOPAZ_CONFIG') === null) {
+    throw new RuntimeException('No config specified! Please supply the path to the config file in the TOPAZ_CONFIG '
+                              .'environment variable.');
+}
 
 require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_utility.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/_ext_link.php';
@@ -37,7 +40,9 @@ class BlogConfig {
 }
 
 function parse_config(): BlogConfig {
-    $config_contents = file_get_contents(CONFIG_PATH);
+    $cfg_path = getenv('TOPAZ_CONFIG');
+
+    $config_contents = file_get_contents($cfg_path);
     $config_json = json_decode($config_contents, true);
 
     $db_config = new DatabaseConfig();
@@ -81,8 +86,8 @@ function parse_config(): BlogConfig {
     $config->navbar_links = $navbar_links;
     $config->external_links = $external_links;
 
-    $_SESSION['last_config_path'] = CONFIG_PATH;
-    $_SESSION['last_config_update'] = filemtime(CONFIG_PATH);
+    $_SESSION['last_config_path'] = $cfg_path;
+    $_SESSION['last_config_update'] = filemtime($cfg_path);
     $_SESSION['last_config_obj'] = $config;
     
     return $config;
@@ -93,7 +98,7 @@ function init_config(): BlogConfig {
         throw new RuntimeException('Global config must be initialized before any session is started');
     }
 
-    if (!file_exists(CONFIG_PATH)) {
+    if (!file_exists(getenv('TOPAZ_CONFIG'))) {
         throw new RuntimeException('Config file is missing');
     }
 

@@ -119,8 +119,11 @@ function changePost(action: string, id: number) {
                 id = resp.id;
             }
 
-            window.location.reload();
-            console.log('attempted reload');
+            if (action !== "delete") {
+                window.location.reload();
+            } else {
+                window.location.href = "/";
+            }
         },
         error: (xhr: JQueryXHR, msg: string) => {
             alert(`Failed to ${action} post: ${msg}`);

@@ -11,7 +11,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_posts.php';
     <title>
         <?php
         if (is_null_or_empty(PageConfig::$title)) {
-            echo "caseif.blog";
+            echo GlobalConfig\get_config()->site_title;
         } else {
             echo PageConfig::$title." - ".GlobalConfig\get_config()->site_title;
         }

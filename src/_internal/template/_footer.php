@@ -17,6 +17,8 @@
                 ?>
             </div>
             <div class="footer-section">
+                Powered by Topaz
+                <span class="spacer"></span>
                 <span class="fab fa-github"></span>
                 &nbsp;
                 <?php
@@ -25,10 +27,6 @@
                 <a href="{$url}" target="_blank" rel="noopener noreferrer">Source on GitHub</a>
                 HTML;
                 ?>
-            </div>
-            <div class="footer-section">
-                Design inspired by
-                <a href="https://dinnerbone.com" target="_blank" rel="noopener noreferrer">Dinnerblog</a>
             </div>
         </div>
     </div> <!-- /wrapper -->

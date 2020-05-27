@@ -11,8 +11,9 @@ function row_to_post(array $row): Post {
         $row['create_time'],
         $row['update_time'],
         $row['author'],
-        $row['author_name'] ?? null,
+        $row['author_name'],
         $row['category'],
+        $row['category_name'],
         $row['visible'],
         $row['about']
     );
@@ -23,8 +24,7 @@ function get_post_count(bool $ignore_visibility = false): int {
 
     $bind_user_param = false;
 
-    $query = 'SELECT COUNT(*) FROM `posts` p
-              LEFT JOIN `users` AS u ON p.`author`=u.`id` WHERE p.`about`=0';
+    $query = 'SELECT COUNT(*) FROM `posts` p WHERE p.`about`=0';
 
     if (!$ignore_visibility) {
         $query .= ' AND (p.`visible`=1';
@@ -69,8 +69,13 @@ function get_posts(int $offset = -1, int $limit = -1, bool $reverse = false): ar
 
     $bind_user_param = false;
 
-    $query = 'SELECT p.*, IFNULL(u.`name`,\'Unknown\') AS `author_name` FROM `posts` p
-              LEFT JOIN `users` AS u ON p.`author`=u.`id` WHERE p.`about`=0';
+    $query = 'SELECT p.*,
+                     IFNULL(u.`name`,\'Unknown\') AS `author_name`,
+                     IFNULL(c.`display`,\'Uncategorized\') AS `category_name`
+                FROM `posts` p
+                LEFT JOIN `users` AS u ON p.`author`=u.`id`
+                LEFT JOIN `categories` AS c ON p.`category`=c.`id`
+                WHERE p.`about`=0';
 
     $query .= ' AND (p.`visible`=1';
     
@@ -128,9 +133,13 @@ function get_post(int $id, bool $ignore_access = false, bool $exclude_about = tr
 
     $bind_user_param = false;
 
-    $query =   'SELECT p.*, IFNULL(u.`name`, \'Unknown\') AS `author_name` FROM `posts` p
-                    INNER JOIN `users` AS u ON p.`author`=u.`id`
-                    WHERE p.`id`=?';
+    $query = 'SELECT p.*,
+                     IFNULL(u.`name`,\'Unknown\') AS `author_name`,
+                     IFNULL(c.`display`,\'Uncategorized\') AS `category_name`
+                FROM `posts` p
+                LEFT JOIN `users` AS u ON p.`author`=u.`id`
+                LEFT JOIN `categories` AS c ON p.`category`=c.`id`
+                WHERE p.`id`=?';
     
     if (!$ignore_access) {
         $query .= ' AND (p.`visible`=1';

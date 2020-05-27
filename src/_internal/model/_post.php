@@ -5,14 +5,15 @@ class Post {
     public string $content;
     public int $create_time;
     public int $update_time;
-    public int $author_id;
+    public ?int $author_id;
     public string $author_name;
-    public string $category;
+    public ?int $category;
+    public string $category_name;
     public bool $visible;
     public bool $about;
 
     function __construct(int $id, string $title, string $content, int $create_time, int $update_time,
-            int $author_id, string $author_name, string $category, bool $visible, bool $about) {
+            ?int $author_id, string $author_name, ?int $category, string $category_name, bool $visible, bool $about) {
         $this->id = $id;
         $this->title = $title;
         $this->content = $content;
@@ -21,6 +22,7 @@ class Post {
         $this->author_id = $author_id;
         $this->author_name = $author_name;
         $this->category = $category;
+        $this->category_name = $category_name;
         $this->visible = $visible;
         $this->about = $about;
     }

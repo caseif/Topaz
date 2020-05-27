@@ -21,12 +21,12 @@ function handle_action(): ?string {
 
     if (empty($title)) {
         return 'Title must not be empty';
-    } else if (strlen($title) > 100) {
-        return 'Title must not exceed 100 characters';
+    } else if (strlen($title) > 128) {
+        return 'Title must not exceed 128 characters';
     } else if (empty($content)) {
         return 'Post body must not be empty';
-    } else if (strlen($content) > 50000) {
-        return 'Post body must not exceed 50,000 characters';
+    } else if (strlen($content) > 16777215) {
+        return 'Post body must not exceed 16,777,215 characters';
     }
 
     try {
@@ -128,12 +128,12 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_header.php';
             <div id="edit-title" class="form-section">
                 <label class="form-label required" for="edit-title-input">Title</label>
                 <input type="text" id="edit-title-input" name="title" value="{$title_val}" required="required"
-                        maxlength="100" />
+                        maxlength="128" />
             </div>
             <div id="edit-content" class="form-section">
                 <label class="form-label required" for="edit-content-input">Content</label>
                 <textarea id="edit-content-input" name="content" resizeable="false" required="required"
-                        maxlength="50000">{$content_val}</textarea>
+                        maxlength="16777215">{$content_val}</textarea>
             </div>
             <div id="edit-about" class="form-section">
                 <input type="checkbox" id="edit-about-input" name="about" {$about_val} />
