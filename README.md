@@ -56,6 +56,12 @@ the [`full.sql` script](./res/database/full.sql) located in the `res/database` d
 will initialize all tables required by Topaz. Future updates may alter the database structure, in which case patch
 scripts will be added to the same directory.
 
+## Developing
+
+For convenience, a `watch.sh` script has been provided in the root of the repository. This script will run continuously
+and compile TypeScript and SCSS sources automatically. Note that this script will not create a distribution archive, and
+is restricted to compiling these sources.
+
 ## Planned Features
 
 Below is a non-exhaustive list of features I would like to implement in Topaz. This list may change with time and not
