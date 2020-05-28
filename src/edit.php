@@ -17,7 +17,7 @@ function handle_action(): ?string {
     $id = $_POST['id'];
     $title = trim($_POST['title']);
     $content = trim($_POST['content']);
-    $about = ($_POST['about'] ?? '0') === '1';
+    $about = ($_POST['about'] ?? 'off') === 'on';
 
     if (empty($title)) {
         return 'Title must not be empty';
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($form_error === null) {
         $id = $_created_id ?? $_POST['id'];
-        if ($_POST['about'] === '1') {
+        if ($_POST['about'] === 'on') {
             header('Location: /about.php');
         } else {
             header("Location: /post.php?id={$id}");
@@ -111,15 +111,15 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/header.php';
             HTML;
         }
 
-        $title_val = get_post_val("title");
+        $title_val = get_post_val('title');
         if (empty($title_val)) {
             $title_val = $post !== null ? $post->title : '';
         }
-        $content_val = get_post_val("content");
+        $content_val = get_post_val('content');
         if (empty($content_val)) {
             $content_val = $post !== null ? $post->content : '';
         }
-        $about_str = get_post_val("content");
+        $about_str = get_post_val('about');
         $about_sel = false;
         if (!empty($about_str)) {
             $about_sel = $about_str === '1';
@@ -129,29 +129,29 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/header.php';
         $about_val = $about_sel ? 'checked="checked"' : '';
         
         echo <<<HTML
-            <div class="form-section form-error">
-                {$form_error}
-            </div>
-            <div id="edit-title" class="form-section">
-                <label class="form-label required" for="edit-title-input">Title</label>
-                <input type="text" id="edit-title-input" name="title" value="{$title_val}" required="required"
-                        maxlength="128" />
-            </div>
-            <div id="edit-content" class="form-section">
-                <label class="form-label required" for="edit-content-input">Content</label>
-                <textarea id="edit-content-input" name="content" resizeable="false" required="required"
-                        maxlength="16777215">{$content_val}</textarea>
-            </div>
-            <div id="edit-about" class="form-section">
-                <input type="checkbox" id="edit-about-input" name="about" {$about_val} />
-                <label for="edit-about-input">Use as About page?</label>
-            </div>
+        <div class="form-section form-error">
+            {$form_error}
+        </div>
+        <div id="edit-title" class="form-section">
+            <label class="form-label required" for="edit-title-input">Title</label>
+            <input type="text" id="edit-title-input" name="title" value="{$title_val}" required="required"
+                    maxlength="128" />
+        </div>
+        <div id="edit-content" class="form-section">
+            <label class="form-label required" for="edit-content-input">Content</label>
+            <textarea id="edit-content-input" name="content" resizeable="false" required="required"
+                    maxlength="16777215">{$content_val}</textarea>
+        </div>
+        <div id="edit-about" class="form-section">
+            <input type="checkbox" id="edit-about-input" name="about" {$about_val} />
+            <label for="edit-about-input">Use as About page?</label>
+        </div>
 
-            <div class="form-section">
-                <button type="submit" id="edit-submit" class="btn-primary">
-                    Save
-                </button>
-            </div>
+        <div class="form-section">
+            <button type="submit" id="edit-submit" class="btn-primary">
+                Save
+            </button>
+        </div>
         HTML;
         ?>
     </form>

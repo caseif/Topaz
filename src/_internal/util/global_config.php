@@ -58,7 +58,8 @@ function parse_config(): BlogConfig {
             $navbar_links[] = new TextNavbarLink($link_json['url'], $link_json['text'], $link_json['title_text']);
         } else if ($link_json['type'] === 'icon') {
             $navbar_links[] = new ImageNavbarLink($link_json['url'], $link_json['icon_namespace'],
-                    $link_json['icon_id'], get_array_item($link_json, 'title_text'));
+                    $link_json['icon_id'], get_array_item($link_json, 'title_text'),
+                    get_array_item($link_json, 'new_tab', false));
         } else {
             throw new RuntimeException('Found invalid navbar link type (must be "text" or "icon")');
         }
@@ -67,7 +68,7 @@ function parse_config(): BlogConfig {
     $external_links = array();
     foreach ($config_json['external_links'] as $link_json) {
         $external_links[] = new \ExternalLink($link_json['url'], $link_json['text'],
-                get_array_item($link_json, 'title_text'));
+                get_array_item($link_json, 'title_text'), get_array_item($link_json, 'new_tab', false));
     }
 
     $config = new BlogConfig();

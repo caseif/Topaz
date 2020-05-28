@@ -4,7 +4,6 @@ const SALT_LEN = 22;
 
 function generate_salt(): string {
     $salt = str_replace('+', '.', substr(base64_encode(random_bytes(ceil(SALT_LEN * 0.75))), 0, SALT_LEN));
-    echo 'salt: '.$salt;
     return $salt;
 }
 

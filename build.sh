@@ -18,7 +18,10 @@ sass --scss --style compressed --update ./src/styles/src/:./src/styles/built/
 # create final tarball
 echo "Creating final tarball..."
 mkdir -p "build"
-tar cJf $tar_output src/* --exclude="scripts/src" --exclude="styles/src"
+pushd . > /dev/null
+cd "./src/"
+tar -cJf "../$tar_output" * --exclude="scripts/src" --exclude="styles/src"
+popd > /dev/null
 
 echo "Done!"
 echo "An archive has been created at $tar_output"

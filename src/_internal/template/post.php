@@ -102,6 +102,10 @@ function render_post(Post $post, bool $abridge = false): void {
         $disp_title .= ' [Hidden]';
     }
 
+    if ($abridge) {
+        $disp_title = "<a href=\"/post.php?id=$post->id\">$disp_title</a>";
+    }
+
     $controls_html = '';
     if ($current_user !== null
             && ($current_user->permissions->write_other

@@ -28,7 +28,8 @@
             "icon_namespace": "fab",
             "icon_id": "twitter",
             "title_text": "Twitter",
-            "url": "https://twitter.com/jack"
+            "url": "https://twitter.com/jack",
+            "new_tab": true
         },
         {
             "type": "text",
@@ -41,7 +42,8 @@
         {
             "text": "GitHub",
             "title_text": "My GitHub Profile",
-            "url": "https://github.com/github"
+            "url": "https://github.com/github",
+            "new_tab": true
         }
     ]
 }

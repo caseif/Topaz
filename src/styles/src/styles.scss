@@ -187,6 +187,10 @@ button {
     font-size: 1.4rem;
     color: $color-accent-dark;
     margin-bottom: 1rem;
+
+    a {
+        color: inherit;
+    }
 }
 
 .form-section {

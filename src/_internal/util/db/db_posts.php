@@ -196,9 +196,13 @@ function get_about(): ?Post {
     
     $bind_user_param = false;
 
-    $query =   'SELECT p.*, IFNULL(u.`name`, \'Unknown\') AS `author_name` FROM `posts` p
-                    INNER JOIN `users` AS u ON p.`author` = u.`id`
-                    WHERE p.`about`=1';
+    $query = 'SELECT p.*,
+                    IFNULL(u.`name`,\'Unknown\') AS `author_name`,
+                    IFNULL(c.`display`,\'Uncategorized\') AS `category_name`
+                FROM `posts` p
+                LEFT JOIN `users` AS u ON p.`author` = u.`id`
+                LEFT JOIN `categories` AS c ON p.`category`=c.`id`
+                WHERE p.`about`=1';
     
     $query .= ' AND (p.`visible`=1';
     if ($current_user !== null) {

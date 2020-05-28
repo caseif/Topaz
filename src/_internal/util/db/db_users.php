@@ -88,7 +88,8 @@ function create_user(string $username, string $name, string $password, string $r
     $username = trim($username);
     $name = trim($name);
     $time = time();
-    $insert_stmt->bind_param('sssii', $username, $name, $pass_hash, $time, $admin ? 0xffffffff : 0);
+    $perm_mask = $admin ? -1 : 0;
+    $insert_stmt->bind_param('sssii', $username, $name, $pass_hash, $time, $perm_mask);
 
     if (!$insert_stmt->execute()) {
         $insert_stmt->close();
