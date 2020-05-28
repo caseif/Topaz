@@ -132,6 +132,15 @@ function render_post(Post $post, bool $abridge = false): void {
         HTML;
     }
 
+    $post_sig = '';
+    if (!$post->about) {
+        $post_sig = <<<HTML
+        <div class="post-signature">
+            Posted by {$post->author_name} on <time datetime="{$robot_date}">{$human_date}</time>
+        </div>
+        HTML;
+    }
+
     echo <<<HTML
     <article class="post" data-id="{$post->id}" data-title="{$post->title}">
         <header class="post-header">
@@ -144,9 +153,7 @@ function render_post(Post $post, bool $abridge = false): void {
         </div>
         <footer class="post-footer">
             {$full_post_link}
-            <div class="post-signature">
-                Posted by {$post->author_name} on <time datetime="{$robot_date}">{$human_date}</time>
-            </div>
+            {$post_sig}
             {$controls_html}
         </footer>
     </article>
