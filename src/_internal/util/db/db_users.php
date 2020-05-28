@@ -1,8 +1,8 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/_user.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_password.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_utility.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_common.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/user.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/password.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/utility.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/db_common.php';
 
 function get_user(int $user_id): ?User {
     $query =   'SELECT * FROM `users` WHERE `id`=? LIMIT 1';

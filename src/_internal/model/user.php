@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/_permission_set.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/permission_set.php';
 
 class User {
     public int $id;

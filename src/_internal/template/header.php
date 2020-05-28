@@ -1,8 +1,8 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_utility.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_global_config.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_page_config.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_posts.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/utility.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/global_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/page_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/db_posts.php';
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +35,6 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_posts.php';
 <body>
     <div id="container">
         <?php
-        include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_navbar.php';
+        include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/navbar.php';
         ?>
         <div id="page-body">

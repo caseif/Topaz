@@ -1,8 +1,8 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_utility.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_user_session.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_users.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_page_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/utility.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/user_session.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/db_users.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/page_config.php';
 
 $form_error = null;
 
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 PageConfig::$title = 'Register';
 
-include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_header.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/header.php';
 ?>
 
 <main id="main-content">
@@ -109,6 +109,6 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_header.php';
 </main>
 
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_sidebar.php';
-include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_footer.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/sidebar.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/footer.php';
 ?>

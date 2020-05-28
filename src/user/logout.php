@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_utility.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/utility.php';
 
 session_start();
 

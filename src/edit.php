@@ -1,7 +1,7 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_posts.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_page_config.php';
-include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_post.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/db_posts.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/page_config.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/post.php';
 
 $_created_id = null;
 
@@ -93,7 +93,7 @@ if ($post !== null) {
     PageConfig::$title = 'Create Post';
 }
 
-include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_header.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/header.php';
 ?>
 
 <main id="main-content">
@@ -158,6 +158,6 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_header.php';
 </main>
 
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_sidebar.php';
-include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/_footer.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/sidebar.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/footer.php';
 ?>

@@ -10,9 +10,9 @@ if (getenv('TOPAZ_CONFIG') === null) {
                               .'environment variable.');
 }
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_utility.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/_ext_link.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/_navbar_link.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/utility.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/ext_link.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/navbar_link.php';
 
 class DatabaseConfig {
     public string $address;

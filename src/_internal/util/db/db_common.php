@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_global_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/global_config.php';
 
 $_db_link = null;
 

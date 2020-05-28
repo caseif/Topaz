@@ -1,7 +1,7 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/_db_common.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/_post.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_user_session.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/db_common.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/post.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/user_session.php';
 
 function row_to_post(array $row): Post {
     return new Post(
