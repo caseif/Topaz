@@ -2,13 +2,24 @@
 
 Topaz is a WIP blog engine built with PHP 7.
 
-### Requirements
+## Requirements
 
-Topaz requires PHP 7.4 and an accompanying MySQL/MariaDB database.
+Topaz requires the following:
 
-### Configuration
+- PHP 7.4
+- A MySQL/MariaDB database
+- The TypeScript compiler (`tsc`)
+- A SASS compiler
 
-#### Web Server Configuration
+## Building
+
+To build, first ensure that the `tsc` and `sass` programs are available in your environment. Then, simply run
+`./build.sh` in the root directory of the repository. An archive will be generated in `build/` containing the root file
+structure of the website. This archive can be extracted to the document root of the web server/virtual host.
+
+## Configuration
+
+### Web Server Configuration
 
 Topaz requires that a configuration file in JSON format be present in order to run. The path to this file must be
 specified by the `TOPAZ_CONFIG` environment variable. A sample config file can be found
@@ -38,14 +49,14 @@ Additionally, your web server should be configured to deny access to the `_inter
 </VirtualHost>
 ```
 
-#### Database Configuration
+### Database Configuration
 
 Finally, you must initialize the database for use with Topaz. Create a new database (the name doesn't matter) and run
 the [`full.sql` script](./res/database/full.sql) located in the `res/database` directory of this repository. This script
 will initialize all tables required by Topaz. Future updates may alter the database structure, in which case patch
 scripts will be added to the same directory.
 
-### Planned Features
+## Planned Features
 
 Below is a non-exhaustive list of features I would like to implement in Topaz. This list may change with time and not
 all listed features will necessarily be implemented.
@@ -56,6 +67,6 @@ all listed features will necessarily be implemented.
 - User management console
 - Categories / category management page
 
-### License
+## License
 
 Topaz is made available under the [MIT License](./LICENSE). You may use the provided software within its bounds.

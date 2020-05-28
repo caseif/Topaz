@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# This script will only compile TypeScript and SASS source files - the distribution tarball will not be generated!
+
+set -e
+
 tsc --watch &
 ts_pid=$!
 

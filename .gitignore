@@ -1,4 +1,5 @@
 .sass-cache/
+build/
 src/scripts/built/*
 src/styles/built/*
 src/pma/

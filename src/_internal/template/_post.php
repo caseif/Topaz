@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/lib/_parsedown.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/thirdparty/_parsedown.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/_user_session.php';
 
 function aware_substr(string $str, int $len) {
