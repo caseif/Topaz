@@ -1,4 +1,3 @@
-
 <?php
 const COOKIE_RECENT_EXPANDED = 'recent_expanded';
 
@@ -56,11 +55,12 @@ $recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
                     $post_year = date('Y', $post->create_time);
                     $post_month = date('F', $post->create_time);
                     $post_day = date('j', $post->create_time);
-                    
+
                     if ($post_year !== $cur_year) {
                         if ($cur_year !== null) {
                             echo <<<HTML
-                                    </ul> <!-- /archive-month -->
+                                        </ul> <!-- /archive-month -->
+                                    </li>
                                 </ul> <!-- /archive-year-body -->
                             </div> <!-- /archive-year -->
                             HTML;
@@ -82,7 +82,8 @@ $recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
                     if ($post_month !== $cur_month) {
                         if ($cur_month !== null) {
                             echo <<<HTML
-                            </ul> <!-- /archive-month -->
+                                </ul> <!-- /archive-month -->
+                            </li>
                             HTML;
                         }
 
@@ -90,10 +91,11 @@ $recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
 
                         echo <<<HTML
                         <li class="archive-month-label">{$post_month}</li>
-                        <ul class="archive-month">
+                        <li>
+                            <ul class="archive-month">
                         HTML;
                     }
-                    
+
                     echo <<<HTML
                     <li class="archive-item">
                         <a href="/post.php?id={$post->id}">{$post_month} {$post_day}</a>
@@ -103,7 +105,8 @@ $recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
 
 
                 echo <<<HTML
-                        </ul> <!-- /archive-month -->
+                            </ul> <!-- /archive-month -->
+                        </li>
                     </ul> <!-- /archive-year-body -->
                 </div> <!-- /archive-year -->
                 HTML;
