@@ -102,7 +102,7 @@ button {
         flex-grow: 0;
         flex-shrink: 0;
         margin-left: 1.5rem;
-        margin-top: 0.1rem;
+        margin-top: 0.25rem;
         font-size: 2rem;
     }
 
@@ -121,15 +121,16 @@ button {
             height: $navbar-height;
             padding-left: 1.4rem;
             padding-right: 1.4rem;
-            line-height: 2.8rem;
             cursor: pointer;
 
             &.link-icon {
                 font-size: 2rem;
+                line-height: 3.1rem;
             }
 
             &.link-text {
                 font-size: 1.1rem;
+                line-height: 2.9rem;
             }
 
             &:hover {
