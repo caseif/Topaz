@@ -20,7 +20,7 @@ echo "Creating final tarball..."
 mkdir -p "build"
 pushd . > /dev/null
 cd "./src/"
-tar -cJf "../$tar_output" * --exclude="scripts/src" --exclude="styles/src"
+tar --exclude="scripts/src" --exclude="styles/src" -cJf "../$tar_output" *
 popd > /dev/null
 
 echo "Done!"
