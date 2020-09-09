@@ -13,7 +13,7 @@ tsc
 
 # compile SCSS sources
 echo "Compiling SCSS sources..."
-sass --scss --style compressed --update ./src/styles/src/:./src/styles/built/
+sass --scss --style compressed --sourcemap=inline --update ./src/styles/src/:./src/styles/built/
 
 # create final tarball
 echo "Creating final tarball..."
