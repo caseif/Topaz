@@ -95,8 +95,12 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/header.php';
                     minlength="10" maxlength="256" />
         </div>
         <div id="register-ticket" class="form-section">
-            <label class="form-label required" for="register-ticket-input">Registration ticket</label>
-            <input type="password" id="register-ticket-input" name="ticket" required="required"
+            <?php
+            $ticket_required = !GlobalConfig\get_config()->user_perms->open_registration;
+            ?>
+            <label class="form-label <?php echo $ticket_required ? "required" : ""; ?>" for="register-ticket-input">Registration ticket</label>
+            <input type="password" id="register-ticket-input" name="ticket"
+                    <?php echo $ticket_required ? "required=\"required\"" : ""; ?>
                     value="<?php echo get_post_val('ticket'); ?>" />
         </div>
 

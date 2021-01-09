@@ -45,8 +45,14 @@ function create_user(string $username, string $name, string $password, string $r
         $admin = true;
     } else {
         //TODO: regular user registration codes?
-
-        throw new UnexpectedValueException("The provided ticket is not valid");
+        if ($reg_code !== "") {
+            throw new UnexpectedValueException("The provided ticket is not valid");
+        } else {
+            if (!GlobalConfig\get_config()->user_perms->open_registration) {
+                // no ticket provided and no open registration = forbid account creation
+                throw new UnexpectedValueException("Open registration is not enabled at this time");
+            }
+        }
     }
 
     $select_query = 'SELECT 1 FROM `users` WHERE `username`=?';
