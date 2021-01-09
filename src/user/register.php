@@ -25,10 +25,12 @@ function handle_submit(): ?string {
     $password = $_POST['password'];
     $ticket = $_POST['ticket'];
 
-    if (strlen($username) < 1) {
-        return 'Username must be at least 1 character';
+    if (strlen($username) < 2) {
+        return 'Username must be at least 2 characters';
     } else if (strlen($username) > 64) {
         return 'Username must not exceed 64 characters';
+    } else if (!preg_match('/^[A-Za-z0-9]$/', $password)) {
+        return 'Username must contain only alphanumeric characters';
     } else if (strlen($fullname) < 1) {
         return 'Full name must be at least 1 character';
     } else if (strlen($fullname) > 64) {

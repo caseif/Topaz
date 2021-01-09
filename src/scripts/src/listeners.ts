@@ -47,22 +47,47 @@ $(document).ready(() => {
         }
     });
 
+    let usernameBlurred = false;
+    let usernameChanged = false;
+
+    $("#register-username-input").on("blur", evt => {
+        usernameBlurred = true;
+        if (usernameChanged) {
+            validateUsername(evt.target as HTMLInputElement);
+        }
+    }).on("input", evt => {
+        usernameChanged = true;
+        if (usernameBlurred) {
+            validateUsername(evt.target as HTMLInputElement);
+        }
+    });
+
     let passChanged = false;
     let passBlurred = false;
+
+    let passVerifyChanged = false;
+    let passVerifyBlurred = false;
+
     $("#register-password-input").on("blur", evt => {
         passBlurred = true;
         if (passChanged) {
             validatePass(evt.target as HTMLInputElement);
+        }
+
+        if (passVerifyChanged) {
+            validatePassVerify(evt.target as HTMLInputElement);
         }
     }).on("input", evt => {
         passChanged = true;
         if (passBlurred) {
             validatePass(evt.target as HTMLInputElement);
         }
+
+        if (passVerifyChanged) {
+            setTimeout(() => validatePassVerify(evt.target as HTMLInputElement));
+        }
     });
 
-    let passVerifyChanged = false;
-    let passVerifyBlurred = false;
     $("#register-passwordVerify-input").on("blur", evt => {
         passVerifyBlurred = true;
         if (passVerifyChanged) {
@@ -75,6 +100,21 @@ $(document).ready(() => {
         }
     });
 });
+
+function validateUsername(usernameInput: HTMLInputElement) {
+    let username = usernameInput.value;
+    let error = "";
+    
+    if (username.length < 2) {
+        error = 'Username must be at least 2 characters';
+    } else if (username.length > 64) {
+        error = 'Username must not exceed 64 characters';
+    } else if (!/^[A-Za-z0-9]$/.test(username)) {
+        error = 'Username must contain only alphanumeric characters';
+    }
+
+    usernameInput.setCustomValidity(error);
+}
 
 function validatePass(passInput: HTMLInputElement) {
     let pass = passInput.value;
