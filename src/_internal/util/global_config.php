@@ -21,15 +21,16 @@ class DatabaseConfig {
     public string $password;
 }
 
-class BlogConfig {
-    public DatabaseConfig $database;
+class UserPermsConfig {
     public string $admin_ticket;
+    public bool $open_registration;
     public bool $show_login_links;
+    public bool $allow_read_by_default;
+}
+
+class ContentConfig {
     public string $site_title;
     public string $site_header;
-    public int $home_recent_post_count;
-    public int $post_preview_chars;
-    public int $sidebar_recent_post_count;
     public string $copyright_start_year;
     public ?string $copyright_end_year;
     public string $copyright_name;
@@ -40,20 +41,48 @@ class BlogConfig {
     public array $external_links;
 }
 
-function parse_config(): BlogConfig {
-    $cfg_path = getenv('TOPAZ_CONFIG');
+class DisplayConfig {
+    public int $home_recent_post_count;
+    public int $post_preview_chars;
+    public int $sidebar_recent_post_count;
+}
 
-    $config_contents = file_get_contents($cfg_path);
-    $config_json = json_decode($config_contents, true);
+class BlogConfig {
+    public DatabaseConfig $database;
+    public UserPermsConfig $user_perms;
+    public ContentConfig $content;
+    public DisplayConfig $display;
+}
+
+function load_db_config($config_json): DatabaseConfig {
+    $db_json = $config_json['database'];
 
     $db_config = new DatabaseConfig();
-    $db_config->address = $config_json['database']['address'];
-    $db_config->name = $config_json['database']['name'];
-    $db_config->user = $config_json['database']['user'];
-    $db_config->password = $config_json['database']['password'];
+    $db_config->address = $db_json['address'];
+    $db_config->name = $db_json['name'];
+    $db_config->user = $db_json['user'];
+    $db_config->password = $db_json['password'];
+
+    return $db_config;
+}
+
+function load_user_perms_config($config_json): UserPermsConfig {
+    $up_json = $config_json['user_permissions'];
+
+    $up_config = new UserPermsConfig();
+    $up_config->admin_ticket = $up_json['admin_ticket'];
+    $up_config->open_registration = $up_json['open_registration'];
+    $up_config->show_login_links = $up_json['show_login_links'];
+    $up_config->allow_read_by_default = $up_json['allow_read_by_default'];
+
+    return $up_config;
+}
+
+function load_content_config($config_json): ContentConfig {
+    $content_json = $config_json['content'];
 
     $navbar_links = array();
-    foreach ($config_json['navbar_links'] as $link_json) {
+    foreach ($content_json['navbar_links'] as $link_json) {
         if ($link_json['type'] === 'text') {
             $navbar_links[] = new TextNavbarLink($link_json['url'], $link_json['text'], $link_json['title_text']);
         } else if ($link_json['type'] === 'icon') {
@@ -66,28 +95,50 @@ function parse_config(): BlogConfig {
     }
 
     $external_links = array();
-    foreach ($config_json['external_links'] as $link_json) {
+    foreach ($content_json['external_links'] as $link_json) {
         $external_links[] = new \ExternalLink($link_json['url'], $link_json['text'],
                 get_array_item($link_json, 'title_text'), get_array_item($link_json, 'new_tab', false));
     }
 
+    $content_config = new ContentConfig();
+
+    $content_config->site_title = $content_json['site_title'];
+    $content_config->site_header = $content_json['site_header'];
+    $content_config->copyright_name = $content_json['copyright']['name'];
+    $content_config->copyright_start_year = $content_json['copyright']['start_year'];
+    $content_config->copyright_end_year = get_array_item($content_json['copyright'], 'end_year', null); 
+    $content_config->contact_email = $content_json['contact_email'];
+    $content_config->contact_email_text = $content_json['contact_email_text'];
+    $content_config->github_url = $content_json['github_url'];
+    $content_config->navbar_links = $navbar_links;
+    $content_config->external_links = $external_links;
+
+    return $content_config;
+}
+
+function load_display_config($config_json): DisplayConfig {
+    $display_json = $config_json['display'];
+
+    $display_config = new DisplayConfig();
+
+    $display_config->home_recent_post_count = $display_json['home_recent_post_count'];
+    $display_config->sidebar_recent_post_count = $display_json['sidebar_recent_post_count'];
+    $display_config->post_preview_chars = $display_json['post_preview_chars'];
+
+    return $display_config;
+}
+
+function parse_config(): BlogConfig {
+    $cfg_path = getenv('TOPAZ_CONFIG');
+
+    $config_contents = file_get_contents($cfg_path);
+    $config_json = json_decode($config_contents, true);
+
     $config = new BlogConfig();
-    $config->database = $db_config;
-    $config->admin_ticket = $config_json['admin_ticket'];
-    $config->show_login_links = $config_json['show_login_links'];
-    $config->site_title = $config_json['site_title'];
-    $config->site_header = $config_json['site_header'];
-    $config->home_recent_post_count = $config_json['home_recent_post_count'];
-    $config->sidebar_recent_post_count = $config_json['sidebar_recent_post_count'];
-    $config->post_preview_chars = $config_json['post_preview_chars'];
-    $config->copyright_name = $config_json['copyright']['name'];
-    $config->copyright_start_year = $config_json['copyright']['start_year'];
-    $config->copyright_end_year = get_array_item($config_json['copyright'], 'end_year', null); 
-    $config->contact_email = $config_json['contact_email'];
-    $config->contact_email_text = $config_json['contact_email_text'];
-    $config->github_url = $config_json['github_url'];
-    $config->navbar_links = $navbar_links;
-    $config->external_links = $external_links;
+    $config->database = load_db_config($config_json);
+    $config->user_perms = load_user_perms_config($config_json);
+    $config->content = load_content_config($config_json);
+    $config->display = load_display_config($config_json);
 
     $_SESSION['last_config_path'] = $cfg_path;
     $_SESSION['last_config_update'] = filemtime($cfg_path);

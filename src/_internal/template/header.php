@@ -11,9 +11,9 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/db_posts.php';
     <title>
         <?php
         if (is_null_or_empty(PageConfig::$title)) {
-            echo GlobalConfig\get_config()->site_title;
+            echo GlobalConfig\get_config()->content->site_title;
         } else {
-            echo PageConfig::$title." - ".GlobalConfig\get_config()->site_title;
+            echo PageConfig::$title." - ".GlobalConfig\get_config()->content->site_title;
         }
         ?>
     </title>

@@ -3,14 +3,14 @@
             <div class="footer-section">
                 <?php
                 echo sprintf('&copy;&nbsp;%s&ndash;%s&nbsp;%s',
-                        GlobalConfig\get_config()->copyright_start_year,
-                        GlobalConfig\get_config()->copyright_end_year ?? date('Y'),
-                        GlobalConfig\get_config()->copyright_name);
+                        GlobalConfig\get_config()->content->copyright_start_year,
+                        GlobalConfig\get_config()->content->copyright_end_year ?? date('Y'),
+                        GlobalConfig\get_config()->content->copyright_name);
                 ?>
                 <span class="spacer"></span>
                 <?php
-                $email = GlobalConfig\get_config()->contact_email;
-                $email_msg = GlobalConfig\get_config()->contact_email_text;
+                $email = GlobalConfig\get_config()->content->contact_email;
+                $email_msg = GlobalConfig\get_config()->content->contact_email_text;
                 echo <<<HTML
                 <a href="mailto:{$email}">{$email_msg}</a>
                 HTML;
@@ -22,7 +22,7 @@
                 <span class="fab fa-github"></span>
                 &nbsp;
                 <?php
-                $url = GlobalConfig\get_config()->github_url;
+                $url = GlobalConfig\get_config()->content->github_url;
                 echo <<<HTML
                 <a href="{$url}" target="_blank" rel="noopener noreferrer">Source on GitHub</a>
                 HTML;

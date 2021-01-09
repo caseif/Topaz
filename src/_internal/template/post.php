@@ -63,7 +63,7 @@ function abridge_text(string $text) {
     $root_node = $dom->getElementsByTagName('body')[0];
 
     $new_dom = new DOMDocument();
-    $avail_chars = GlobalConfig\get_config()->post_preview_chars;
+    $avail_chars = GlobalConfig\get_config()->display->post_preview_chars;
 
     $new_root = abridge_node($new_dom, $root_node, $avail_chars);
     $new_root = $new_dom->importNode($new_root);
