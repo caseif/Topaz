@@ -15,7 +15,7 @@ if (!is_numeric($page)) {
 
 $page_count = ceil(get_post_count() / GlobalConfig\get_config()->home_recent_post_count);
 
-if ($page < 1 || $page > $page_count) {
+if ($page < 1 || ($page_count > 0 && $page > $page_count)) {
     http_response_code(404);
     include $_SERVER['DOCUMENT_ROOT'].'/error/404.php';
     die();
@@ -30,14 +30,20 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/header.php';
         $posts = get_posts(($page - 1) * GlobalConfig\get_config()->home_recent_post_count,
                 GlobalConfig\get_config()->home_recent_post_count, true);
 
-        foreach ($posts as $post_index => $post) {
-            render_post($post, true);
+        if (count($posts) > 0) {
+            foreach ($posts as $post_index => $post) {
+                render_post($post, true);
+            }
+        } else {
+            echo "There's nothing here...";
         }
         ?>
     </div>
 
     <?php
-    render_pager($page, $page_count);
+    if ($page_count > 0) {
+        render_pager($page, $page_count);
+    }
     ?>
 </div>
 
