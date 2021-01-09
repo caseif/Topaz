@@ -2,10 +2,18 @@
         <div id="page-footer">
             <div class="footer-section">
                 <?php
-                echo sprintf('&copy;&nbsp;%s&ndash;%s&nbsp;%s',
-                        GlobalConfig\get_config()->content->copyright_start_year,
-                        GlobalConfig\get_config()->content->copyright_end_year ?? date('Y'),
-                        GlobalConfig\get_config()->content->copyright_name);
+                $start_year = GlobalConfig\get_config()->content->copyright_start_year ?? date('Y');
+                $end_year = GlobalConfig\get_config()->content->copyright_end_year ?? date('Y');
+                if ($start_year == $end_year) {
+                    echo sprintf('&copy;&nbsp;%s&nbsp;%s',
+                            $start_year,
+                            GlobalConfig\get_config()->content->copyright_name);
+                } else {
+                    echo sprintf('&copy;&nbsp;%s&ndash;%s&nbsp;%s',
+                            $start_year,
+                            $end_year,
+                            GlobalConfig\get_config()->content->copyright_name);
+                }
                 ?>
                 <span class="spacer"></span>
                 <?php
