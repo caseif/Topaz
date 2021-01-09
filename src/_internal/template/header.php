@@ -24,6 +24,21 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/db_posts.php';
     <!-- first-party -->
     <link rel="stylesheet" href="/styles/built/styles.css">
     <link rel="stylesheet" href="/styles/thirdparty/fontawesome/css/all.min.css">
+    
+    <!-- fonts (could be first- or third-party depending on config) -->
+    <?php
+    if (GlobalConfig\get_config()->internal->use_google_fonts) {
+    ?>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+            rel="stylesheet">
+    <?php
+    } else {
+    ?>
+    <link href="/fonts/lato/css/lato.css" rel="stylesheet">
+    <?php
+    }
+    ?>
 
     <!-- third-party -->
     <script type="text/javascript" src="/scripts/thirdparty/jquery/jquery-3.5.0.min.js"></script>

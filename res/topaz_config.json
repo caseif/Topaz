@@ -51,5 +51,8 @@
         "home_recent_post_count": 5,
         "sidebar_recent_post_count": 5,
         "post_preview_chars": 600
+    },
+    "internal": {
+        "use_google_fonts": true
     }
 }

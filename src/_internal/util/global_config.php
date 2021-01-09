@@ -47,11 +47,16 @@ class DisplayConfig {
     public int $sidebar_recent_post_count;
 }
 
+class InternalConfig {
+    public bool $use_google_fonts;
+}
+
 class BlogConfig {
     public DatabaseConfig $database;
     public UserPermsConfig $user_perms;
     public ContentConfig $content;
     public DisplayConfig $display;
+    public InternalConfig $internal;
 }
 
 function load_db_config($config_json): DatabaseConfig {
@@ -128,6 +133,16 @@ function load_display_config($config_json): DisplayConfig {
     return $display_config;
 }
 
+function load_internal_config($config_json): InternalConfig {
+    $internal_json = $config_json['internal'];
+
+    $internal_config = new InternalConfig();
+
+    $internal_config->use_google_fonts = $internal_json['use_google_fonts'];
+
+    return $internal_config;
+}
+
 function parse_config(): BlogConfig {
     $cfg_path = getenv('TOPAZ_CONFIG');
 
@@ -139,6 +154,7 @@ function parse_config(): BlogConfig {
     $config->user_perms = load_user_perms_config($config_json);
     $config->content = load_content_config($config_json);
     $config->display = load_display_config($config_json);
+    $config->internal = load_internal_config($config_json);
 
     $_SESSION['last_config_path'] = $cfg_path;
     $_SESSION['last_config_update'] = filemtime($cfg_path);
