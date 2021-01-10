@@ -193,6 +193,7 @@ input[type=text], input[type=password], input[type=date], input[type=datetime-lo
         .navbar-link {
             float: left;
             height: $navbar-height;
+            padding-top: 0.1rem;
             padding-left: 1.4rem;
             padding-right: 1.4rem;
             cursor: pointer;
