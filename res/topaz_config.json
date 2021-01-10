@@ -15,7 +15,7 @@
         "site_title": "My Blog",
         "site_description": "A blog about me!",
         "site_image": "/images/sample/site.png",
-        "site_icon": "/images/sample/favicon.png",
+        "site_icon": "/images/sample/icon.png",
         "site_header": "My Blog",
         "copyright": {
             "name": "John Smith",

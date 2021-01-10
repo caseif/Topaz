@@ -39,6 +39,8 @@ if (!is_null_or_empty($page_image_url)) {
     $page_image_url = null;
 }
 
+$page_favicon = GlobalConfig\get_config()->content->site_icon;
+
 echo <<<HTML
     <title>{$page_title}</title>
 
@@ -62,5 +64,12 @@ if ($post != null) {
         <meta property="article:modified_time" content="{$update_time_8601}" />
         <meta property="article:author" content="article" />
         <meta property="article:section" content="article" />
+    HTML;
+}
+
+if (!is_null_or_empty($page_favicon)) {
+    $page_favicon = to_server_url($page_favicon);
+    echo <<<HTML
+        <link rel="icon" href="{$page_favicon}" />
     HTML;
 }
