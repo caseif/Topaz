@@ -1,7 +1,8 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/db_posts.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/page_config.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/post.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/post.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/page_config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/db_posts.php';
 
 $post = get_post($_GET['id']);
 
@@ -12,6 +13,7 @@ if ($post === null) {
 }
 
 PageConfig::$title = $post->title;
+PageConfig::$post = $post;
 
 include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/header.php';
 ?>

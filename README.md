@@ -78,3 +78,5 @@ all listed features will necessarily be implemented.
 ## License
 
 Topaz is made available under the [MIT License](./LICENSE). You may use the provided software within its bounds.
+
+The images in the /images/sample/ directory of this repository are non-original works which exist in the public domain. Topaz's license does not apply to these files.

@@ -27,4 +27,26 @@ function get_array_item(array $arr, string $key, $def = null) {
 function get_session_var(string $key, $def = null) {
     return get_array_item($_SESSION, $key, $def);
 }
+
+function get_server_base_address() {
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http';
+    $hostname = $_SERVER['SERVER_ADDR'];
+    $port = $_SERVER['SERVER_PORT'];
+
+    $full = $protocol.'://'.$hostname;
+    if (!(($protocol == 'http' && $port == 80) || ($protocol == 'https' && $port == 443))) {
+        $full .= ':'.$port;
+    }
+
+    return $full;
+}
+
+function to_server_url(string $path) {
+    $url = get_server_base_address();
+    if ($path[0] != '/') {
+        $url .= '/';
+    }
+    $url .= $path;
+    return $url;
+}
 ?>

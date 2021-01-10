@@ -8,15 +8,11 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/db/db_posts.php';
 <!DOCTYPE html>
 <html>
 <head>
-    <title>
-        <?php
-        if (is_null_or_empty(PageConfig::$title)) {
-            echo GlobalConfig\get_config()->content->site_title;
-        } else {
-            echo PageConfig::$title." - ".GlobalConfig\get_config()->content->site_title;
-        }
-        ?>
-    </title>
+    <meta charset="utf-8">
+
+    <?php
+    include($_SERVER['DOCUMENT_ROOT'].'/_internal/template/head_tags.php');
+    ?>
     
     <!-- third-party -->
     <link rel="stylesheet" href="/styles/thirdparty/bootstrap/bootstrap-grid.min.css">

@@ -13,6 +13,9 @@
     },
     "content": {
         "site_title": "My Blog",
+        "site_description": "A blog about me!",
+        "site_image": "/images/sample/site.png",
+        "site_icon": "/images/sample/favicon.png",
         "site_header": "My Blog",
         "copyright": {
             "name": "John Smith",
@@ -50,7 +53,8 @@
     "display": {
         "home_recent_post_count": 5,
         "sidebar_recent_post_count": 5,
-        "post_preview_chars": 600
+        "post_preview_chars": 600,
+        "post_social_chars": 150
     },
     "internal": {
         "use_google_fonts": true

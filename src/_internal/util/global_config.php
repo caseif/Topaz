@@ -30,6 +30,9 @@ class UserPermsConfig {
 
 class ContentConfig {
     public string $site_title;
+    public string $site_description;
+    public string $site_image;
+    public string $site_icon;
     public string $site_header;
     public string $copyright_start_year;
     public ?string $copyright_end_year;
@@ -43,8 +46,9 @@ class ContentConfig {
 
 class DisplayConfig {
     public int $home_recent_post_count;
-    public int $post_preview_chars;
     public int $sidebar_recent_post_count;
+    public int $post_preview_chars;
+    public int $post_social_chars;
 }
 
 class InternalConfig {
@@ -108,6 +112,9 @@ function load_content_config($config_json): ContentConfig {
     $content_config = new ContentConfig();
 
     $content_config->site_title = $content_json['site_title'];
+    $content_config->site_description = $content_json['site_description'];
+    $content_config->site_image = $content_json['site_image'];
+    $content_config->site_icon = $content_json['site_icon'];
     $content_config->site_header = $content_json['site_header'];
     $content_config->copyright_name = $content_json['copyright']['name'];
     $content_config->copyright_start_year = $content_json['copyright']['start_year'];
@@ -129,6 +136,7 @@ function load_display_config($config_json): DisplayConfig {
     $display_config->home_recent_post_count = $display_json['home_recent_post_count'];
     $display_config->sidebar_recent_post_count = $display_json['sidebar_recent_post_count'];
     $display_config->post_preview_chars = $display_json['post_preview_chars'];
+    $display_config->post_social_chars = $display_json['post_social_chars'];
 
     return $display_config;
 }
