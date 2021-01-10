@@ -5,26 +5,26 @@ $page_type = '';
 $page_url = '';
 $page_image_url = '';
 
-$post = PageConfig::$post;
+$cur_post = PageConfig::$post;
 
-if ($post != null) {
+if ($cur_post != null) {
     // post page
 
     require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/post_util.php';
     
-    $page_title = $post->title.' &ndash; '.GlobalConfig\get_config()->content->site_title;
+    $page_title = $cur_post->title.' &ndash; '.GlobalConfig\get_config()->content->site_title;
 
     $page_desc = strip_tags(
         preg_replace('/\r?\n/', ' ',
             abridge_text(
-                $post->content_parsed, GlobalConfig\get_config()->display->post_social_chars
+                $cur_post->content_parsed, GlobalConfig\get_config()->display->post_social_chars
             )
         )
     );
 
     $page_type = 'article';
 
-    $page_url = '/post.php?id='.$post->id;
+    $page_url = '/post.php?id='.$cur_post->id;
 
     //TODO: eventually we'll have optional per-article images that we retrieve from the db
     $page_image_url = GlobalConfig\get_config()->content->site_image;
@@ -63,9 +63,9 @@ if ($page_image_url != null) {
     HTML;
 }
 
-if ($post != null) {
-    $create_time_8601 = date('c', $post->create_time);
-    $update_time_8601 = $post->update_time != -1 ? date('c', $post->update_time) : $create_time_8601;
+if ($cur_post != null) {
+    $create_time_8601 = date('c', $cur_post->create_time);
+    $update_time_8601 = $cur_post->update_time != -1 ? date('c', $cur_post->update_time) : $create_time_8601;
 
     echo <<<HTML
         <meta property="article:published_time" content="{$create_time_8601}" />
