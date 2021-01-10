@@ -117,7 +117,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/_internal/template/header.php';
         }
         $content_val = get_post_val('content');
         if (empty($content_val)) {
-            $content_val = $post !== null ? $post->content : '';
+            $content_val = $post !== null ? $post->content_raw : '';
         }
         $about_str = get_post_val('about');
         $about_sel = false;
