@@ -8,7 +8,7 @@ function get_post_val(string $name) {
 }
 
 function redirect_back() {
-    $redir_page = $_POST['back'] ?? '/';
+    $redir_page = $_GET['back'] ?? '/';
     if (empty($redir_page)) {
         $redir_page = '/';
     }
