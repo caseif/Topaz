@@ -66,12 +66,13 @@ if ($page_image_url != null) {
 if ($cur_post != null) {
     $create_time_8601 = date('c', $cur_post->create_time);
     $update_time_8601 = $cur_post->update_time != -1 ? date('c', $cur_post->update_time) : $create_time_8601;
+    $section = $cur_post->category_name;
 
     echo <<<HTML
         <meta property="article:published_time" content="{$create_time_8601}" />
         <meta property="article:modified_time" content="{$update_time_8601}" />
         <meta property="article:author" content="article" />
-        <meta property="article:section" content="article" />
+        <meta property="article:section" content="{$section}" />
     HTML;
 }
 
