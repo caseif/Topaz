@@ -24,7 +24,7 @@ if ($cur_post != null) {
 
     $page_type = 'article';
 
-    $page_url = '/post.php?id='.$cur_post->id;
+    $page_url = '/content/post.php?id='.$cur_post->id;
 
     //TODO: eventually we'll have optional per-article images that we retrieve from the db
     $page_image_url = GlobalConfig\get_config()->content->site_image;

@@ -34,7 +34,7 @@ function render_post(Post $post, bool $abridge = false): void {
         $post_content = abridge_text($post_content, GlobalConfig\get_config()->display->post_preview_chars);
         $full_post_link = <<<HTML
         <div class="post-full-link">
-            <a href="/post.php?id={$post->id}">See Full Post</a>
+            <a href="/content/post.php?id={$post->id}">See Full Post</a>
         </div>
         HTML;
     }
@@ -45,7 +45,7 @@ function render_post(Post $post, bool $abridge = false): void {
     }
 
     if ($abridge) {
-        $disp_title = "<a href=\"/post.php?id=$post->id\">$disp_title</a>";
+        $disp_title = "<a href=\"/content/post.php?id=$post->id\">$disp_title</a>";
     }
 
     $controls_html = '';
@@ -59,7 +59,7 @@ function render_post(Post $post, bool $abridge = false): void {
         <div class="post-controls">
             <div class="post-controls-section">
                 <span class="post-control">
-                    <a href="/edit.php?id={$post->id}">Edit</a>
+                    <a href="/content/edit.php?id={$post->id}">Edit</a>
                 </span>
                 <span class="post-control">
                     <a href="#" onclick="{$hide_fn}({$post->id});">{$hide_lbl}</a>

@@ -55,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($form_error === null) {
         $id = $_created_id ?? $_POST['id'];
         if ($_POST['about'] === 'on') {
-            header('Location: /about.php');
+            header('Location: /content/about.php');
         } else {
-            header("Location: /post.php?id={$id}");
+            header("Location: /content/post.php?id={$id}");
         }
         die();
     }

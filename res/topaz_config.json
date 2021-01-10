@@ -38,7 +38,7 @@
                 "type": "text",
                 "text": "About",
                 "title_text": "About Me",
-                "url": "/about.php"
+                "url": "/content/about.php"
             }
         ],
         "external_links": [

@@ -19,7 +19,7 @@ $recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
                                 : '';
                         echo <<<HTML
                         <li {$li_class}>
-                            <a href="/post.php?id={$post->id}">{$post->title}</a>
+                            <a href="/content/post.php?id={$post->id}">{$post->title}</a>
                         </li>
                         HTML;
                     }
@@ -100,7 +100,7 @@ $recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
 
                     echo <<<HTML
                     <li class="archive-item">
-                        <a href="/post.php?id={$post->id}">{$post_month} {$post_day}</a>
+                        <a href="/content/post.php?id={$post->id}">{$post_month} {$post_day}</a>
                     </li>
                     HTML;
                 }
@@ -123,7 +123,7 @@ $recent_expanded = ($_COOKIE[COOKIE_RECENT_EXPANDED] ?? '0') === '1';
             <div class="sidebar-header">Content Management</div>
             <div class="sidebar-content sidebar-links">
                 <div class="sidebar-link">
-                    <a href="/edit.php">Create a Post</a>
+                    <a href="/content/edit.php">Create a Post</a>
                 </div>
             </div>
         </div>
