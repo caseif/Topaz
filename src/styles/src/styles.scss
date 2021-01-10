@@ -1,23 +1,62 @@
-$color-background: #F5F5F9;
-$color-navbar: #222222;
-$color-text: #181818;
-$color-accent: #839FE3;
-$color-accent-dark: #7777FF;
+$color-background:          1;
+$color-text:                2;
+$color-navbar-background:   3;
+$color-navbar-text:         4;
+$color-header:              5;
+$color-link:                6;
+$color-signature:           7;
+
+$color-l-background: #F5F5F9;
+$color-l-text: #181818;
+$color-l-navbar-background: #222222;
+$color-l-navbar-text: #839FE3;
+$color-l-header: #7777FF;
+$color-l-link: #839FE3;
+$color-l-signature: #7777FF;
+
+$color-d-background: #282828;
+$color-d-text: #F5F5F5;
+$color-d-navbar-background: #222222;
+$color-d-navbar-text: #97aee7;
+$color-d-header: #5e87ed;
+$color-d-link: #97aee7;
+$color-d-signature: #97aee7;
+
+$colors-light: $color-l-background $color-l-text $color-l-navbar-background $color-l-navbar-text $color-l-header $color-l-link $color-l-signature;
+$colors-dark: $color-d-background $color-d-text $color-d-navbar-background $color-d-navbar-text $color-d-header $color-d-link $color-d-signature;
 
 $navbar-height: 3rem;
 
 $sidebar-width: 25%;
 
+@mixin themed-color($prop, $color-index, $important: 0) {
+    $importantStr: ();
+    @if $important == 1 {
+        $importantStr: !important;
+    }
+
+    // fallback
+    #{$prop}: nth($colors-light, $color-index) $importantStr;
+
+    @media (prefers-color-scheme: light),
+           (prefers-color-scheme: no-preference) {
+        #{$prop}: nth($colors-light, $color-index) $importantStr;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        #{$prop}: nth($colors-dark, $color-index) $importantStr;
+    }
+}
+
 body {
     font-family: "Lato", "Segoe UI", Calibri, Ubuntu, sans-serif;
     font-size: 13pt;
-    color: $color-text;
-    background-color: $color-background;
+    @include themed-color('color', $color-text);
+    @include themed-color('background-color', $color-background);
 }
 
 a {
     text-decoration: none;
-    color: $color-accent;
 }
 
 pre {
@@ -76,7 +115,7 @@ button {
 // utility classes
 
 .pseudo-link {
-    color: $color-accent;
+    @include themed-color('color', $color-link);
     cursor: pointer;
 }
 
@@ -92,8 +131,8 @@ button {
     top: 0;
     width: 100%;
     height: $navbar-height;
-    background-color: $color-navbar;
-    color: $color-accent;
+    @include themed-color('background-color', $color-navbar-background);
+    @include themed-color('color', $color-navbar-text);
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.7);
 
     #navbar-title {
@@ -102,6 +141,10 @@ button {
         margin-left: 1.5rem;
         margin-top: 0.25rem;
         font-size: 2rem;
+
+        a {
+            @include themed-color('color', $color-navbar-text);
+        }
     }
 
     .spacer {
@@ -171,6 +214,11 @@ button {
     * {
         flex-shrink: 0;
     }
+
+    a {
+        text-decoration: none;
+        @include themed-color('color', $color-link);
+    }
 }
 
 // /page content
@@ -183,12 +231,12 @@ button {
 }
 
 .header {
-    font-size: 1.4rem;
-    color: $color-accent-dark;
+    font-size: 1.5rem;
+    @include themed-color('color', $color-header);
     margin-bottom: 1rem;
 
     a {
-        color: inherit;
+        color: inherit !important;
     }
 }
 
@@ -230,7 +278,9 @@ button {
 
 .post {
     &:not(:last-child) {
-        border-bottom: solid black 1px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        @include themed-color('border-bottom-color', $color-text);
         margin-bottom: 1rem;
         padding-bottom: 1rem;
     }
@@ -241,7 +291,7 @@ button {
 
     .post-footer {
         .post-signature {
-            color: $color-accent-dark;
+            @include themed-color('color', $color-signature);
             text-align: right;
             margin-bottom: 0.8rem;
         }
@@ -289,7 +339,7 @@ button {
         }
 
         a {
-            color: $color-accent-dark;
+            @include themed-color('color', $color-header);
         }
     }
 }
@@ -304,9 +354,8 @@ button {
 
     .sidebar-section {
         .sidebar-header {
+            @extend .header;
             margin-bottom: 0.6rem;
-            font-size: 1.4rem;
-            color: $color-accent-dark;
         }
 
         .sidebar-content {
@@ -401,9 +450,15 @@ button {
 #page-footer {
     width: 100%;
     text-align: center;
-    border-top: solid 1px $color-text;
+    border-top-style: solid;
+    border-top-width: 1px;
+    @include themed-color('border-top-color', $color-text);
     padding-top: 1rem;
     margin-bottom: 1rem;
+
+    a {
+        @include themed-color('color', $color-link);
+    }
 
     .footer-section:not(:last-child) {
         margin-bottom: 0.8rem;
