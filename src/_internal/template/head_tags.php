@@ -1,6 +1,8 @@
 <?php
 $page_title = '';
 $page_desc = '';
+$page_type = '';
+$page_url = '';
 $page_image_url = '';
 
 $post = PageConfig::$post;
@@ -22,6 +24,8 @@ if ($post != null) {
 
     $page_type = 'article';
 
+    $page_url = '/post.php?id='.$post->id;
+
     //TODO: eventually we'll have optional per-article images that we retrieve from the db
     $page_image_url = GlobalConfig\get_config()->content->site_image;
 } else {
@@ -30,6 +34,7 @@ if ($post != null) {
     $page_title = GlobalConfig\get_config()->content->site_title;
     $page_desc = GlobalConfig\get_config()->content->site_description;
     $page_type = 'website';
+    $page_url = $_SERVER['REQUEST_URI'];
     $page_image_url = GlobalConfig\get_config()->content->site_image;
 }
 
@@ -39,6 +44,8 @@ if (!is_null_or_empty($page_image_url)) {
     $page_image_url = null;
 }
 
+$page_url = to_server_url($page_url);
+
 $page_favicon = GlobalConfig\get_config()->content->site_icon;
 
 echo <<<HTML
@@ -47,6 +54,7 @@ echo <<<HTML
     <meta property="og:title" content="{$page_title}" />
     <meta property="og:description" content="{$page_desc}" />
     <meta property="og:type" content="{$page_type}" />
+    <meta property="og:url" content="{$page_url}" />
 HTML;
 
 if ($page_image_url != null) {
