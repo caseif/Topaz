@@ -1,29 +1,50 @@
 $color-background:          1;
 $color-text:                2;
 $color-navbar-background:   3;
-$color-navbar-text:         4;
+$color-navbar-foreground:   4;
 $color-header:              5;
 $color-link:                6;
 $color-signature:           7;
+$color-disabled:            8;
+$color-code-background:     9;
+$color-code-foreground:     10;
+$color-input-background:    11;
+$color-input-foreground:    12;
+$color-input-border:        13;
+$color-alert:               14;
 
 $color-l-background: #F5F5F9;
 $color-l-text: #181818;
 $color-l-navbar-background: #222222;
-$color-l-navbar-text: #839FE3;
-$color-l-header: #7777FF;
-$color-l-link: #839FE3;
-$color-l-signature: #7777FF;
+$color-l-navbar-foreground: #97AEE7;
+$color-l-header: #4444FF;
+$color-l-link: #3961C6;
+$color-l-signature: #3961C6;
+$color-l-disabled: #707070;
+$color-l-code-background: #e0e0e0;
+$color-l-code-foreground: $color-l-text;
+$color-l-input-background: #ffffff;
+$color-l-input-foreground: $color-l-text;
+$color-l-input-border: #c5c5c5;
+$color-l-alert: #d00000;
 
 $color-d-background: #282828;
 $color-d-text: #F5F5F5;
 $color-d-navbar-background: #222222;
-$color-d-navbar-text: #97aee7;
-$color-d-header: #5e87ed;
-$color-d-link: #97aee7;
-$color-d-signature: #97aee7;
+$color-d-navbar-foreground: #97AEE7;
+$color-d-header: #5E87eD;
+$color-d-link: #97AEE7;
+$color-d-signature: #97AEE7;
+$color-d-disabled: #BBBBBB;
+$color-d-code-background: #080808;
+$color-d-code-foreground: $color-d-text;
+$color-d-input-background: #1A1A1A;
+$color-d-input-foreground: $color-d-text;
+$color-d-input-border: #404040;
+$color-d-alert: #FF4D4D;
 
-$colors-light: $color-l-background $color-l-text $color-l-navbar-background $color-l-navbar-text $color-l-header $color-l-link $color-l-signature;
-$colors-dark: $color-d-background $color-d-text $color-d-navbar-background $color-d-navbar-text $color-d-header $color-d-link $color-d-signature;
+$colors-light: $color-l-background $color-l-text $color-l-navbar-background $color-l-navbar-foreground $color-l-header $color-l-link $color-l-signature $color-l-disabled $color-l-code-background $color-l-code-foreground $color-l-input-background $color-l-input-foreground $color-l-input-border $color-l-alert;
+$colors-dark:  $color-d-background $color-d-text $color-d-navbar-background $color-d-navbar-foreground $color-d-header $color-d-link $color-d-signature $color-d-disabled $color-d-code-background $color-d-code-foreground $color-d-input-background $color-d-input-foreground $color-d-input-border $color-d-alert;
 
 $navbar-height: 3rem;
 
@@ -59,8 +80,12 @@ a {
     text-decoration: none;
 }
 
+pre, code {
+    @include themed-color('background-color', $color-code-background);
+    @include themed-color('color', $color-code-foreground);
+}
+
 pre {
-    background-color: #e0e0e0;
     overflow: auto;
 
     code {
@@ -68,11 +93,7 @@ pre {
     }
 }
 
-code {
-    background-color: #e0e0e0;
-}
-
-button {
+button, input[type=button] {
     border: none;
     outline: none;
     cursor: pointer;
@@ -112,6 +133,18 @@ button {
     }
 }
 
+input[type=text], input[type=password], input[type=date], input[type=datetime-local], input[type=email],
+        input[type=url] {
+    @include themed-color('background-color', $color-input-background);
+    @include themed-color('color', $color-input-foreground);
+    @include themed-color('border-color', $color-input-border);
+    @include themed-color('border-color', $color-input-border);
+    height: 2.55em;
+    border-radius: 0.5em;
+    border-style: solid;
+    border-width: 1px;
+}
+
 // utility classes
 
 .pseudo-link {
@@ -132,7 +165,7 @@ button {
     width: 100%;
     height: $navbar-height;
     @include themed-color('background-color', $color-navbar-background);
-    @include themed-color('color', $color-navbar-text);
+    @include themed-color('color', $color-navbar-foreground);
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.7);
 
     #navbar-title {
@@ -143,7 +176,7 @@ button {
         font-size: 2rem;
 
         a {
-            @include themed-color('color', $color-navbar-text);
+            @include themed-color('color', $color-navbar-foreground);
         }
     }
 
@@ -246,7 +279,7 @@ button {
     }
 
     &.form-error {
-        color: #d00000;
+        @include themed-color('color', $color-alert);
         max-width: 60%;
     }
 
@@ -257,7 +290,7 @@ button {
         &.required::after {
             content: '*';
             padding-left: 0.1rem;
-            color: red;
+            @include themed-color('color', $color-alert);
         }
     }
 
@@ -335,7 +368,8 @@ button {
         }
 
         &.disabled {
-            color: #bbbbbb;
+            @include themed-color('color', $color-disabled);
+            color: #707070;
         }
 
         a {
