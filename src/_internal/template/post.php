@@ -56,7 +56,7 @@ function abridge_node(DOMDocument $root, DOMNode $node, int &$avail_chars): DOMN
 
 function abridge_text(string $text) {
     $dom = new DOMDocument();
-    if (!$dom->loadHTML($text)) {
+    if (!$dom->loadHTML('<?xml encoding="utf-8" ?>'.$text)) {
         throw new RuntimeException("Failed to parse DOM from post body");
     }
 
@@ -71,7 +71,7 @@ function abridge_text(string $text) {
 
     $res = "";
     foreach ($new_root->childNodes as $child) {
-        $res .= $new_dom->saveXML($child);
+        $res .= $new_dom->saveHTML($child);
     }
 
     return $res;
