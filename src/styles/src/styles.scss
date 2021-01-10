@@ -50,6 +50,9 @@ $navbar-height: 3rem;
 
 $sidebar-width: 25%;
 
+$content-font-size: 1.1rem;
+$input-font-size: 0.9rem;
+
 @mixin themed-color($prop, $color-index, $important: 0) {
     $importantStr: ();
     @if $important == 1 {
@@ -71,7 +74,7 @@ $sidebar-width: 25%;
 
 body {
     font-family: "Lato", "Segoe UI", Calibri, Ubuntu, sans-serif;
-    font-size: 1.1rem;
+    font-size: $content-font-size;
     @include themed-color('color', $color-text);
     @include themed-color('background-color', $color-background);
 }
@@ -142,6 +145,7 @@ input[type=text], input[type=password], input[type=date], input[type=datetime-lo
     border-radius: 0.5em;
     border-style: solid;
     border-width: 1px;
+    font-size: $input-font-size;
 
     &:not(textarea) {
         height: 2.55em;
