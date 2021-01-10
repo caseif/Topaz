@@ -71,7 +71,7 @@ $sidebar-width: 25%;
 
 body {
     font-family: "Lato", "Segoe UI", Calibri, Ubuntu, sans-serif;
-    font-size: 13pt;
+    font-size: 1.1rem;
     @include themed-color('color', $color-text);
     @include themed-color('background-color', $color-background);
 }
