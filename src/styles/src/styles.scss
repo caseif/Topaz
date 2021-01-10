@@ -134,15 +134,18 @@ button, input[type=button] {
 }
 
 input[type=text], input[type=password], input[type=date], input[type=datetime-local], input[type=email],
-        input[type=url] {
+        input[type=url], textarea {
     @include themed-color('background-color', $color-input-background);
     @include themed-color('color', $color-input-foreground);
     @include themed-color('border-color', $color-input-border);
     @include themed-color('border-color', $color-input-border);
-    height: 2.55em;
     border-radius: 0.5em;
     border-style: solid;
     border-width: 1px;
+
+    &:not(textarea) {
+        height: 2.55em;
+    }
 }
 
 // utility classes
