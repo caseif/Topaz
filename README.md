@@ -7,7 +7,7 @@ Topaz is a WIP blog engine built with PHP 7.
 Topaz requires the following:
 
 - PHP 7.4
-- PHP DOM extension
+- PHP DOM extension (some distros call this `php-xml` or something similar)
 - PHP mbstring extension
 - A MySQL/MariaDB database
 - The TypeScript compiler (`tsc`)
