@@ -2,7 +2,7 @@
 class RelMeLink {
     private string $url;
 
-    function __construct(string $url, string $label) {
+    function __construct(string $url) {
         $this->url = $url;
     }
 

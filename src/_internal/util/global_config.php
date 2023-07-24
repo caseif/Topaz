@@ -114,7 +114,7 @@ function load_content_config($config_json): ContentConfig {
 
     $rel_me_links = array();
     foreach ($content_json['rel_me_links'] as $link_json) {
-        $rel_me_links[] = new RelMeLink($link_json['url'], $link_json['label']);
+        $rel_me_links[] = new RelMeLink($link_json['url']);
     }
 
     $content_config = new ContentConfig();
