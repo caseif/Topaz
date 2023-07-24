@@ -30,7 +30,7 @@ function get_session_var(string $key, $def = null) {
 
 function get_server_base_address() {
     $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http';
-    $hostname = $_SERVER['SERVER_ADDR'];
+    $hostname = $_SERVER['SERVER_NAME'];
     $port = $_SERVER['SERVER_PORT'];
 
     $full = $protocol.'://'.$hostname;
