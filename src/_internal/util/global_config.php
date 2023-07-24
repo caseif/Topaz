@@ -4,6 +4,7 @@ namespace GlobalConfig;
 use ImageNavbarLink;
 use RuntimeException;
 use TextNavbarLink;
+use RelMeLink;
 
 if (getenv('TOPAZ_CONFIG') === null) {
     throw new RuntimeException('No config specified! Please supply the path to the config file in the TOPAZ_CONFIG '
@@ -13,6 +14,7 @@ if (getenv('TOPAZ_CONFIG') === null) {
 require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/util/utility.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/ext_link.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/navbar_link.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/_internal/model/rel_me_link.php';
 
 class DatabaseConfig {
     public string $address;
@@ -40,6 +42,7 @@ class ContentConfig {
     public string $contact_email;
     public string $contact_email_text;
     public string $github_url;
+    public array $rel_me_links;
     public array $navbar_links;
     public array $external_links;
 }
@@ -109,6 +112,11 @@ function load_content_config($config_json): ContentConfig {
                 get_array_item($link_json, 'title_text'), get_array_item($link_json, 'new_tab', false));
     }
 
+    $rel_me_links = array();
+    foreach ($content_json['rel_me_links'] as $link_json) {
+        $rel_me_links[] = new RelMeLink($link_json['url'], $link_json['label']);
+    }
+
     $content_config = new ContentConfig();
 
     $content_config->site_title = $content_json['site_title'];
@@ -124,6 +132,7 @@ function load_content_config($config_json): ContentConfig {
     $content_config->github_url = $content_json['github_url'];
     $content_config->navbar_links = $navbar_links;
     $content_config->external_links = $external_links;
+    $content_config->rel_me_links = $rel_me_links;
 
     return $content_config;
 }

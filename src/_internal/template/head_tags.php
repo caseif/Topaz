@@ -57,6 +57,10 @@ echo <<<HTML
     <meta property="og:url" content="{$page_url}" />
 HTML;
 
+foreach (GlobalConfig\get_config()->content->rel_me_links as $link) {
+    echo "\n    ".$link->to_html()."\n";
+}
+
 if ($page_image_url != null) {
     echo <<<HTML
         <meta property="og:image" content="{$page_image_url}" />

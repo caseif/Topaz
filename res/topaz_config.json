@@ -29,9 +29,9 @@
             {
                 "type": "icon",
                 "icon_namespace": "fab",
-                "icon_id": "twitter",
-                "title_text": "Twitter",
-                "url": "https://twitter.com/jack",
+                "icon_id": "linkedin",
+                "title_text": "LinkedIn",
+                "url": "https://linkedin.com/JohnnyAppleseed",
                 "new_tab": true
             },
             {
@@ -47,6 +47,11 @@
                 "title_text": "My GitHub Profile",
                 "url": "https://github.com/github",
                 "new_tab": true
+            }
+        ],
+        "rel_me_links": [
+            {
+                "url": "https://mastodon.social/@mastodon"
             }
         ]
     },
